@@ -15,6 +15,7 @@
             "browser": "src/main.ts",
             "index": "src/index.html",
             "outputPath": "dist/frontend",
+            "tsConfig": "tsconfig.app.json",
             "styles": ["src/styles.css"],
             "scripts": [],
             "polyfills": ["zone.js"]
