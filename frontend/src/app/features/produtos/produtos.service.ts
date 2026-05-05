@@ -7,7 +7,12 @@ import { Produto, ProdutoListResponse } from '../../shared/models';
 export class ProdutosService {
   private api = inject(ApiService);
   listar(p: { categoria?: string; busca?: string; pagina?: number }): Observable<ProdutoListResponse> {
-    return this.api.get('/produtos', { categoria: p.categoria, busca: p.busca, pagina: String(p.pagina || 1), limite: '12' });
+    const params: Record<string, string> = {};
+    if (p.categoria) params['categoria'] = p.categoria;
+    if (p.busca) params['busca'] = p.busca;
+    params['pagina'] = String(p.pagina || 1);
+    params['limite'] = '12';
+    return this.api.get('/produtos', params);
   }
   buscarPorId(id: string): Observable<Produto> { return this.api.get(`/produtos/${id}`); }
 }

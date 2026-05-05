@@ -20,5 +20,5 @@ export class ExtratoComponent implements OnInit {
   private api = inject(ApiService);
   transacoes = signal<Transacao[]>([]); loading = signal(true); periodo = '';
   ngOnInit(): void { this.load(); }
-  load(): void { this.loading.set(true); this.api.get<ExtratoResponse>('/extrato', { periodo: this.periodo || undefined }).subscribe({ next: (r) => { this.transacoes.set(r.transacoes); this.loading.set(false); }, error: () => this.loading.set(false) }); }
+  load(): void { this.loading.set(true); const params: Record<string, string> = {}; if (this.periodo) params['periodo'] = this.periodo; this.api.get<ExtratoResponse>('/extrato', params).subscribe({ next: (r) => { this.transacoes.set(r.transacoes); this.loading.set(false); }, error: () => this.loading.set(false) }); }
 }
