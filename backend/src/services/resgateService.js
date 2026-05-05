@@ -10,13 +10,13 @@ async function realizarResgate(usuarioId, produtoId, enderecoId) {
   try {
     await client.query("BEGIN");
 
-    const usuario = await buscarUsuario(usuarioId);
+    const usuario = await buscarUsuario(client, usuarioId);
     if (!usuario) throw new Error("Usuário não encontrado");
 
-    const produto = await buscarProduto(produtoId);
+    const produto = await buscarProduto(client, produtoId);
     if (!produto) throw new Error("Produto não encontrado ou inativo");
 
-    const endereco = await buscarEndereco(enderecoId, usuarioId);
+    const endereco = await buscarEndereco(client, enderecoId, usuarioId);
     if (!endereco) throw new Error("Endereço não encontrado");
 
     if (usuario.saldo_pontos < produto.pontos_necessarios) throw new Error("Saldo insuficiente");

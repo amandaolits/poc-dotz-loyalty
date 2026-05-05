@@ -20,8 +20,11 @@ async function listar({ categoria, subcategoria, busca, pagina = 1, limite = 10 
   return { produtos: result.rows, total: parseInt(countResult.rows[0].count, 10), pagina: parseInt(pagina, 10), limite: parseInt(limite, 10) };
 }
 
-async function buscarPorId(id) {
-  const result = await pool.query("SELECT * FROM produtos WHERE id = $1 AND ativo = true", [id]);
+async function buscarPorId(arg1, arg2) {
+  let db, id;
+  if (arg1 && typeof arg1 === 'object' && arg1.query) { db = arg1; id = arg2; }
+  else { db = pool; id = arg1; }
+  const result = await db.query("SELECT * FROM produtos WHERE id = $1 AND ativo = true", [id]);
   return result.rows[0] || null;
 }
 

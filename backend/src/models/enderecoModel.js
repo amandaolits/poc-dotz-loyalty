@@ -5,8 +5,11 @@ async function listarPorUsuario(usuarioId) {
   return result.rows;
 }
 
-async function buscarPorId(id, usuarioId) {
-  const result = await pool.query("SELECT * FROM enderecos WHERE id = $1 AND usuario_id = $2", [id, usuarioId]);
+async function buscarPorId(arg1, arg2, arg3) {
+  let db, id, usuarioId;
+  if (arg1 && typeof arg1 === 'object' && arg1.query) { db = arg1; id = arg2; usuarioId = arg3; }
+  else { db = pool; id = arg1; usuarioId = arg2; }
+  const result = await db.query("SELECT * FROM enderecos WHERE id = $1 AND usuario_id = $2", [id, usuarioId]);
   return result.rows[0] || null;
 }
 
