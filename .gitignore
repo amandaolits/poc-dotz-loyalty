@@ -139,3 +139,6 @@ dist
 
 # opencode config (contains API keys)
 opencode.json
+
+# Angular CLI cache
+frontend/.angular/
