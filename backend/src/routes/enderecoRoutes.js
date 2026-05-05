@@ -29,7 +29,7 @@ router.post("/", validate(enderecoSchema), async (req, res, next) => {
   try {
     await client.query("BEGIN");
     if (req.validatedBody.padrao) await unsetPadrao(client, req.userId);
-    const endereco = await criar(req.userId, req.validatedBody);
+    const endereco = await criar(client, req.userId, req.validatedBody);
     await client.query("COMMIT");
     res.status(201).json(endereco);
   } catch (err) { await client.query("ROLLBACK"); next(err); }
@@ -41,7 +41,7 @@ router.put("/:id", validate(enderecoSchema), async (req, res, next) => {
   try {
     await client.query("BEGIN");
     if (req.validatedBody.padrao) await unsetPadrao(client, req.userId);
-    const endereco = await atualizar(req.params.id, req.userId, req.validatedBody);
+    const endereco = await atualizar(client, req.params.id, req.userId, req.validatedBody);
     if (!endereco) return res.status(404).json({ erro: "Endereço não encontrado" });
     await client.query("COMMIT");
     res.json(endereco);

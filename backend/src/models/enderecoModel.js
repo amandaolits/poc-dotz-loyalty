@@ -13,8 +13,9 @@ async function buscarPorId(arg1, arg2, arg3) {
   return result.rows[0] || null;
 }
 
-async function criar(usuarioId, data) {
-  const result = await pool.query(
+async function criar(clientOrPool, usuarioId, data) {
+  const db = clientOrPool.query ? clientOrPool : pool;
+  const result = await db.query(
     `INSERT INTO enderecos (usuario_id, cep, logradouro, numero, complemento, bairro, cidade, estado, padrao)
      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
     [usuarioId, data.cep, data.logradouro, data.numero, data.complemento || null, data.bairro, data.cidade, data.estado, data.padrao || false]
@@ -22,8 +23,9 @@ async function criar(usuarioId, data) {
   return result.rows[0];
 }
 
-async function atualizar(id, usuarioId, data) {
-  const result = await pool.query(
+async function atualizar(clientOrPool, id, usuarioId, data) {
+  const db = clientOrPool.query ? clientOrPool : pool;
+  const result = await db.query(
     `UPDATE enderecos SET cep=$1, logradouro=$2, numero=$3, complemento=$4, bairro=$5, cidade=$6, estado=$7, padrao=$8
      WHERE id=$9 AND usuario_id=$10 RETURNING *`,
     [data.cep, data.logradouro, data.numero, data.complemento || null, data.bairro, data.cidade, data.estado, data.padrao, id, usuarioId]
