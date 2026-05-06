@@ -1,24 +1,131 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
-import { Transacao, ExtratoResponse } from '../../shared/models';
-import { CardComponent, SkeletonComponent, EmptyStateComponent } from '../../shared/components';
+import { Transacao } from '../../shared/models';
+import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent } from '../../shared/components';
 
 @Component({
-  selector: 'app-extrato', standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent, SkeletonComponent, EmptyStateComponent],
+  selector: 'app-extrato',
+  standalone: true,
+  imports: [CommonModule, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent],
   template: `
-    <div class="bar"><h1>Extrato</h1><select [(ngModel)]="periodo" (change)="load()" class="filter"><option value="">Todos</option><option value="1m">Último mês</option><option value="3m">3 meses</option><option value="6m">6 meses</option></select></div>
-    <div class="container">
-      @if (loading()) { @for (i of [1,2,3]; track i) { <app-card style="margin-bottom:12px"><app-skeleton width="60%" height="16px"/></app-card> } }
-      @else if (transacoes().length === 0) { <app-empty-state icon="📋" message="Nenhuma transação"/> }
-      @else { @for (t of transacoes(); track t.id) { <app-card class="tx"><div class="info"><span class="tipo" [class.g]="t.tipo === 'ganho'" [class.r]="t.tipo === 'resgate'">{{ t.tipo === 'ganho' ? '⬆ Ganho' : '⬇ Resgate' }}</span><span class="desc">{{ t.descricao }}</span></div><div class="right"><span class="pts" [class.g]="t.tipo === 'ganho'" [class.r]="t.tipo === 'resgate'">{{ t.tipo === 'ganho' ? '+' : '-' }}{{ t.pontos }}</span><span class="date">{{ t.data_criacao | date:'dd/MM/yyyy HH:mm' }}</span></div></app-card> } }</div>`,
-  styles: [`.bar { background: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; } .filter { padding: 8px 12px; border: 1px solid #D1D5DB; border-radius: 8px; } .container { padding: 32px 16px; } .tx { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; } .tipo { font-weight: 600; font-size: 14px; } .tipo.g { color: #059669; } .tipo.r { color: #FF6B00; } .desc { color: #6B7280; font-size: 14px; } .right { text-align: right; } .pts { font-weight: 700; font-size: 18px; display: block; } .pts.g { color: #059669; } .pts.r { color: #FF6B00; } .date { color: #9CA3AF; font-size: 12px; }`]
+    <app-navbar />
+    <main class="container extrato-main">
+      <h1 class="page-title">Extrato de Pontos</h1>
+
+      @if (loading()) {
+        <div class="extrato-list">
+          @for (i of [1,2,3,4,5]; track i) {
+            <app-skeleton height="80px" />
+          }
+        </div>
+      } @else if (transacoes().length === 0) {
+        <app-empty-state message="Nenhuma transação encontrada" />
+      } @else {
+        <div class="extrato-list">
+          @for (transacao of transacoes(); track transacao.id) {
+            <app-card class="transacao-card">
+              <div class="transacao-info">
+                <div class="transacao-icon" [class]="'icon-' + transacao.tipo">
+                  @if (transacao.tipo === 'resgate') {
+                    🛒
+                  } @else {
+                    ✨
+                  }
+                </div>
+                <div class="transacao-details">
+                  <p class="transacao-desc">{{ transacao.descricao }}</p>
+                  <p class="transacao-date">{{ transacao.data_criacao | date:'dd/MM/yyyy HH:mm' }}</p>
+                </div>
+              </div>
+              <p class="transacao-value" [class]="'value-' + transacao.tipo">
+                @if (transacao.tipo === 'resgate') {
+                  -{{ transacao.pontos | number:'1.0-0' }}
+                } @else {
+                  +{{ transacao.pontos | number:'1.0-0' }}
+                }
+              </p>
+            </app-card>
+          }
+        </div>
+      }
+    </main>
+  `,
+  styles: [`
+    .extrato-main {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-2xl);
+    }
+    .page-title {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-h1);
+      color: var(--color-on-surface);
+      margin-bottom: var(--space-xl);
+    }
+    .extrato-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .transacao-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .transacao-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .transacao-icon {
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+    }
+    .icon-resgate {
+      background: rgba(254, 226, 226, 0.1);
+    }
+    .icon-ganho {
+      background: rgba(0, 163, 109, 0.1);
+    }
+    .transacao-desc {
+      font-size: var(--font-size-body-md);
+      color: var(--color-on-surface);
+      margin-bottom: var(--space-xs);
+    }
+    .transacao-date {
+      font-size: var(--font-size-label-sm);
+      color: var(--color-on-surface-variant);
+    }
+    .transacao-value {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-h3);
+    }
+    .value-resgate {
+      color: var(--color-error);
+    }
+    .value-ganho {
+      color: var(--color-tertiary);
+    }
+  `]
 })
 export class ExtratoComponent implements OnInit {
   private api = inject(ApiService);
-  transacoes = signal<Transacao[]>([]); loading = signal(true); periodo = '';
-  ngOnInit(): void { this.load(); }
-  load(): void { this.loading.set(true); const params: Record<string, string> = {}; if (this.periodo) params['periodo'] = this.periodo; this.api.get<ExtratoResponse>('/extrato', params).subscribe({ next: (r) => { this.transacoes.set(r.transacoes); this.loading.set(false); }, error: () => this.loading.set(false) }); }
+  transacoes = signal<Transacao[]>([]);
+  loading = signal(true);
+
+  ngOnInit(): void {
+    this.api.get<{ transacoes: Transacao[] }>('/extrato').subscribe({
+      next: (r) => {
+        this.transacoes.set(r.transacoes);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
 }
