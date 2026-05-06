@@ -7,3 +7,4 @@ export { StatusChipComponent } from './status-chip/status-chip.component';
 export { EmptyStateComponent } from './empty-state/empty-state.component';
 export { NavbarComponent } from './navbar/navbar.component';
 export { SaldoDisplayComponent } from './saldo-display/saldo-display.component';
+export { ProductCardComponent } from './product-card/product-card.component';
