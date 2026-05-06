@@ -4,20 +4,126 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProdutosService } from '../produtos.service';
 import { Produto } from '../../../shared/models';
-import { CardComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
+import { NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
 
 @Component({
   selector: 'app-produtos-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, CardComponent, SkeletonComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent],
   template: `
-    <div class="bar"><h1>Produtos</h1><input type="text" placeholder="Buscar..." [(ngModel)]="busca" (ngModelChange)="load()" class="search"/></div>
-    <div class="container">@if (loading()) { <div class="grid">@for (i of [1,2,3,4,5,6]; track i) { <app-card><app-skeleton height="160px"/><app-skeleton width="80%" height="20px"/></app-card> } </div> } @else if (produtos().length === 0) { <app-empty-state message="Nenhum produto encontrado"/> } @else { <div class="grid">@for (p of produtos(); track p.id) { <app-card [clickable]="true" routerLink="/produtos/{{ p.id }}"><img [src]="p.imagem_url" [alt]="p.nome" class="img"/><h3>{{ p.nome }}</h3><p class="pts">{{ p.pontos_necessarios | number:'1.0-0' }} Dotz</p>@if (p.categoria) { <span class="chip">{{ p.categoria }}</span> }</app-card> } </div> }</div>`,
-  styles: [`.bar { background: white; padding: 24px 32px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #E5E7EB; } .search { flex: 1; max-width: 320px; padding: 10px 16px; border: 1px solid #D1D5DB; border-radius: 12px; } .container { padding: 32px 16px; } .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; } .img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; } .pts { color: #FF6B00; font-weight: 700; font-size: 18px; } .chip { display: inline-block; padding: 4px 10px; background: #fff1eb; color: #a04100; border-radius: 9999px; font-size: 12px; }`]
+    <app-navbar />
+    <main class="container produtos-main">
+      <div class="produtos-header">
+        <h1 class="page-title">Produtos</h1>
+        <div class="search-wrapper">
+          <input
+            type="text"
+            placeholder="Buscar produtos..."
+            [(ngModel)]="busca"
+            (ngModelChange)="load()"
+            class="search-input"
+          />
+          <span class="search-icon">🔍</span>
+        </div>
+      </div>
+
+      @if (loading()) {
+        <div class="produtos-grid">
+          @for (i of [1,2,3,4,5,6]; track i) {
+            <div class="skeleton-card">
+              <app-skeleton height="160px" />
+              <app-skeleton width="80%" height="20px" />
+            </div>
+          }
+        </div>
+      } @else if (produtos().length === 0) {
+        <app-empty-state message="Nenhum produto encontrado" />
+      } @else {
+        <div class="produtos-grid">
+          @for (p of produtos(); track p.id) {
+            <app-product-card [produto]="p" />
+          }
+        </div>
+      }
+    </main>
+  `,
+  styles: [`
+    .produtos-main {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-2xl);
+    }
+    .produtos-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      flex-wrap: wrap;
+    }
+    .page-title {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-h1);
+      color: var(--color-on-surface);
+      line-height: var(--font-line-height-h1);
+    }
+    .search-wrapper {
+      flex: 1;
+      max-width: 320px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: var(--space-md) var(--space-lg);
+      padding-left: 40px;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      font-size: var(--font-size-body-md);
+      font-family: var(--font-family);
+      background: var(--color-surface);
+      transition: all var(--transition-fast);
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-focus);
+    }
+    .search-icon {
+      position: absolute;
+      left: var(--space-md);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--color-on-surface-variant);
+    }
+    .produtos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--space-lg);
+    }
+    .skeleton-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+  `]
 })
 export class ListComponent implements OnInit {
   private service = inject(ProdutosService);
-  produtos = signal<Produto[]>([]); loading = signal(true); busca = '';
-  ngOnInit(): void { this.load(); }
-  load(): void { this.loading.set(true); this.service.listar({ busca: this.busca || undefined }).subscribe({ next: (r) => { this.produtos.set(r.produtos); this.loading.set(false); }, error: () => this.loading.set(false) }); }
+  produtos = signal<Produto[]>([]);
+  loading = signal(true);
+  busca = '';
+
+  ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
+    this.loading.set(true);
+    this.service.listar({ busca: this.busca || undefined }).subscribe({
+      next: (r) => {
+        this.produtos.set(r.produtos);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
 }
