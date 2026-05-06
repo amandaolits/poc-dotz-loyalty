@@ -3,21 +3,109 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PedidoService } from '../pedido.service';
 import { Pedido } from '../../../shared/models';
-import { CardComponent, SkeletonComponent, StatusChipComponent, EmptyStateComponent } from '../../../shared/components';
+import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, StatusChipComponent } from '../../../shared/components';
 
 @Component({
-  selector: 'app-pedidos-list', standalone: true,
-  imports: [CommonModule, RouterLink, CardComponent, SkeletonComponent, StatusChipComponent, EmptyStateComponent],
+  selector: 'app-pedidos-list',
+  standalone: true,
+  imports: [CommonModule, RouterLink, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, StatusChipComponent],
   template: `
-    <div class="bar"><h1>Pedidos</h1></div>
-    <div class="container">
-      @if (loading()) { @for (i of [1,2,3]; track i) { <app-card style="margin-bottom:12px"><app-skeleton width="60%" height="16px"/></app-card> } }
-      @else if (pedidos().length === 0) { <app-empty-state icon="📦" message="Nenhum pedido"/> }
-              @else { @for (p of pedidos(); track p.id) { <app-card [clickable]="true" routerLink="/pedidos/{{ p.id }}" class="pedido">@if (p.produto_imagem) { <img [src]="p.produto_imagem" [alt]="p.produto_nome" class="img"/> }<div class="info"><h3>{{ p.produto_nome }}</h3><app-status-chip [status]="p.status"/><p class="pts">{{ p.pontos_gastos }} Dotz</p><p class="date">{{ p.data_pedido | date:'dd/MM/yyyy' }}</p></div></app-card> } }</div>`,
-  styles: [`.bar { background: white; padding: 24px 32px; border-bottom: 1px solid #E5E7EB; } .container { padding: 32px 16px; } .pedido { display: flex; gap: 16px; margin-bottom: 12px; align-items: center; } .img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; } .info h3 { font-size: 16px; font-weight: 600; } .pts { color: #FF6B00; font-weight: 700; font-size: 14px; } .date { color: #9CA3AF; font-size: 12px; }`]
+    <app-navbar />
+    <main class="container pedidos-main">
+      <h1 class="page-title">Meus Pedidos</h1>
+
+      @if (loading()) {
+        <div class="pedidos-list">
+          @for (i of [1,2,3]; track i) {
+            <app-skeleton height="100px" />
+          }
+        </div>
+      } @else if (pedidos().length === 0) {
+        <app-empty-state message="Nenhum pedido realizado" />
+      } @else {
+        <div class="pedidos-list">
+          @for (pedido of pedidos(); track pedido.id) {
+            <a [routerLink]="['/pedidos', pedido.id]" class="pedido-link">
+              <app-card class="pedido-card elevated">
+                <div class="pedido-info">
+                  <div>
+                    <h3 class="pedido-produto">{{ pedido.produto_nome }}</h3>
+                    <p class="pedido-date">{{ pedido.data_pedido | date:'dd/MM/yyyy' }}</p>
+                  </div>
+                  <div class="pedido-right">
+                    <p class="pedido-points">{{ pedido.pontos_gastos | number:'1.0-0' }} Dotz</p>
+                    <app-status-chip [status]="pedido.status" [label]="pedido.status" />
+                  </div>
+                </div>
+              </app-card>
+            </a>
+          }
+        </div>
+      }
+    </main>
+  `,
+  styles: [`
+    .pedidos-main {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-2xl);
+    }
+    .page-title {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-h1);
+      color: var(--color-on-surface);
+      margin-bottom: var(--space-xl);
+    }
+    .pedidos-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .pedido-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    .pedido-card {
+      transition: all var(--transition-fast);
+    }
+    .pedido-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .pedido-produto {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-h3);
+      color: var(--color-on-surface);
+      margin-bottom: var(--space-xs);
+    }
+    .pedido-date {
+      font-size: var(--font-size-label-sm);
+      color: var(--color-on-surface-variant);
+    }
+    .pedido-right {
+      text-align: right;
+    }
+    .pedido-points {
+      font-size: var(--font-size-body-lg);
+      font-weight: var(--font-weight-h2);
+      color: var(--color-primary);
+      margin-bottom: var(--space-xs);
+    }
+  `]
 })
 export class ListComponent implements OnInit {
   private service = inject(PedidoService);
-  pedidos = signal<Pedido[]>([]); loading = signal(true);
-  ngOnInit(): void { this.service.listar().subscribe({ next: (r) => { this.pedidos.set(r); this.loading.set(false); }, error: () => this.loading.set(false) }); }
+  pedidos = signal<Pedido[]>([]);
+  loading = signal(true);
+
+  ngOnInit(): void {
+    this.service.listar().subscribe({
+      next: (pedidos) => {
+        this.pedidos.set(pedidos);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
 }
