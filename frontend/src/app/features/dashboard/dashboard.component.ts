@@ -4,27 +4,138 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { ApiService } from '../../core/services/api.service';
 import { SaldoResponse } from '../../shared/models';
-import { CardComponent, SkeletonComponent } from '../../shared/components';
+import { NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent } from '../../shared/components';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, CardComponent, SkeletonComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent],
   template: `
-    <nav class="header"><span class="logo">Dotz</span><div class="right">@if (usuario()) { <span>Olá, {{ usuario()!.email.split('@')[0] }}</span> }<button (click)="auth.logout()">Sair</button></div></nav>
-    <div class="container">
-      <app-card class="saldo">@if (loading()) { <app-skeleton width="120px" height="48px"/> } @else { <p class="label">Seu saldo</p><p class="value">{{ saldo() | number:'1.0-0' }} <span class="d">Dotz</span></p> }</app-card>
-      <div class="links">
-        <a routerLink="/produtos" class="link"><span>🛒</span>Produtos</a>
-        <a routerLink="/pedidos" class="link"><span>📦</span>Pedidos</a>
-        <a routerLink="/extrato" class="link"><span>📋</span>Extrato</a>
-        <a routerLink="/enderecos" class="link"><span>📍</span>Endereços</a>
+    <app-navbar />
+    <main class="container dashboard-main">
+      <div class="welcome-section">
+        @if (usuario()) {
+          <h1 class="welcome-text">Olá, {{ usuario()!.email.split('@')[0] }}!</h1>
+        }
       </div>
-    </div>`,
-  styles: [`.header { background: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; } .logo { color: #FF6B00; font-size: 24px; font-weight: 700; } .right { display: flex; align-items: center; gap: 16px; } .saldo { margin-top: 32px; text-align: center; padding: 40px; } .label { color: #6B7280; } .value { color: #FF6B00; font-size: 48px; font-weight: 700; } .d { font-size: 24px; color: #6B7280; } .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; } @media (min-width: 768px) { .links { grid-template-columns: repeat(4, 1fr); } } .link { display: flex; flex-direction: column; align-items: center; padding: 24px; background: white; border-radius: 16px; text-decoration: none; color: #261812; border: 1px solid #E5E7EB; } .link span { font-size: 32px; margin-bottom: 8px; }`]
+
+      @if (loading()) {
+        <app-skeleton height="120px" class="saldo-skeleton" />
+      } @else {
+        <app-saldo-display [saldo]="saldo()" class="saldo-section" />
+      }
+
+      <div class="quick-actions">
+        <h2 class="section-title">O que você quer fazer?</h2>
+        <div class="actions-grid">
+          <a routerLink="/produtos" class="action-card">
+            <span class="action-icon">🛒</span>
+            <span class="action-label">Produtos</span>
+            <span class="action-desc">Resgate com seus pontos</span>
+          </a>
+          <a routerLink="/pedidos" class="action-card">
+            <span class="action-icon">📦</span>
+            <span class="action-label">Pedidos</span>
+            <span class="action-desc">Acompanhe seus resgates</span>
+          </a>
+          <a routerLink="/extrato" class="action-card">
+            <span class="action-icon">📋</span>
+            <span class="action-label">Extrato</span>
+            <span class="action-desc">Histórico de pontos</span>
+          </a>
+          <a routerLink="/enderecos" class="action-card">
+            <span class="action-icon">📍</span>
+            <span class="action-label">Endereços</span>
+            <span class="action-desc">Gerencie seus endereços</span>
+          </a>
+        </div>
+      </div>
+    </main>
+  `,
+  styles: [`
+    .dashboard-main {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-2xl);
+    }
+    .welcome-section {
+      margin-bottom: var(--space-lg);
+    }
+    .welcome-text {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-h1);
+      color: var(--color-on-surface);
+      line-height: var(--font-line-height-h1);
+    }
+    .saldo-section {
+      margin-bottom: var(--space-xl);
+    }
+    .saldo-skeleton {
+      max-width: 400px;
+      border-radius: var(--radius-xl);
+    }
+    .section-title {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-h2);
+      color: var(--color-on-surface);
+      margin-bottom: var(--space-lg);
+    }
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+    }
+    @media (min-width: 768px) {
+      .actions-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .action-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-xl);
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      color: var(--color-on-surface);
+      border: 1px solid var(--color-outline-variant);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+    .action-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-2px);
+    }
+    .action-icon {
+      font-size: 32px;
+      margin-bottom: var(--space-sm);
+    }
+    .action-label {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-h3);
+      margin-bottom: var(--space-xs);
+    }
+    .action-desc {
+      font-size: var(--font-size-label-sm);
+      color: var(--color-on-surface-variant);
+      text-align: center;
+    }
+  `]
 })
 export class DashboardComponent implements OnInit {
-  auth = inject(AuthService); private api = inject(ApiService);
-  usuario = this.auth.usuario; saldo = signal(0); loading = signal(true);
-  ngOnInit(): void { this.api.get<SaldoResponse>('/saldo').subscribe({ next: (r) => { this.saldo.set(r.saldo_pontos); this.loading.set(false); }, error: () => this.loading.set(false) }); }
+  auth = inject(AuthService);
+  private api = inject(ApiService);
+  usuario = this.auth.usuario;
+  saldo = signal(0);
+  loading = signal(true);
+
+  ngOnInit(): void {
+    this.api.get<SaldoResponse>('/saldo').subscribe({
+      next: (r) => {
+        this.saldo.set(r.saldo_pontos);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
 }
