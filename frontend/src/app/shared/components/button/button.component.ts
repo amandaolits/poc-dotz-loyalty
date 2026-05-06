@@ -1,15 +1,76 @@
 import { Component, input, output } from '@angular/core';
 
 @Component({
-  selector: 'app-button', standalone: true,
+  selector: 'app-button',
+  standalone: true,
   template: `<button [type]="type()" [class]="buttonClass()" [disabled]="disabled()" (click)="clicked.emit($event)"><ng-content></ng-content></button>`,
-  styles: [`.btn-primary { background: #FF6B00; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; } .btn-primary:hover:not(:disabled) { background: #e55f00; } .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; } .btn-secondary { background: transparent; color: #6B7280; border: 1px solid #E5E7EB; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; } .btn-sm { padding: 8px 16px; font-size: 14px; }`]
+  styles: [`
+    :host {
+      display: inline-block;
+    }
+    button {
+      font-family: var(--font-family);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      border-radius: var(--radius-lg);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: #e55f00;
+      box-shadow: var(--shadow-card);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-secondary);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--color-surface-container);
+    }
+    .btn-text {
+      background: transparent;
+      color: var(--color-primary);
+      border-radius: var(--radius-lg);
+    }
+    .btn-text:hover:not(:disabled) {
+      background: var(--color-primary-container);
+    }
+    .btn-sm {
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-label-sm);
+    }
+    .btn-md {
+      padding: var(--space-md) var(--space-lg);
+      font-size: var(--font-size-body-md);
+    }
+    .btn-lg {
+      padding: var(--space-lg) var(--space-xl);
+      font-size: var(--font-size-body-lg);
+    }
+  `]
 })
 export class ButtonComponent {
   type = input<'button' | 'submit'>('button');
-  variant = input<'primary' | 'secondary'>('primary');
-  size = input<'sm' | 'md'>('md');
+  variant = input<'primary' | 'secondary' | 'text'>('primary');
+  size = input<'sm' | 'md' | 'lg'>('md');
   disabled = input(false);
   clicked = output<MouseEvent>();
-  buttonClass(): string { return `btn-${this.variant()} ${this.size() === 'sm' ? 'btn-sm' : ''}`; }
+  buttonClass(): string {
+    return `btn-${this.variant()} btn-${this.size()}`;
+  }
 }
