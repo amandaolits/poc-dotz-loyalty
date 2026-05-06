@@ -1,32 +1,142 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProdutosService } from '../produtos.service';
-import { ApiService } from '../../../core/services/api.service';
-import { Produto, SaldoResponse } from '../../../shared/models';
-import { CardComponent, ButtonComponent, SkeletonComponent } from '../../../shared/components';
+import { Produto } from '../../../shared/models';
+import { NavbarComponent, ButtonComponent, SkeletonComponent } from '../../../shared/components';
 
 @Component({
-  selector: 'app-produtos-detail',
+  selector: 'app-produto-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, CardComponent, ButtonComponent, SkeletonComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, ButtonComponent, SkeletonComponent],
   template: `
-    <div class="container"><a routerLink="/produtos" class="back">← Voltar</a>
-      @if (loading()) { <app-skeleton width="100%" height="300px"/> } @else if (produto()) {
-        <div class="detail">
-          @if (produto()!.imagem_url) { <img [src]="produto()!.imagem_url" [alt]="produto()!.nome" class="img"/> }
-          <h1>{{ produto()!.nome }}</h1><p class="pts">{{ produto()!.pontos_necessarios | number:'1.0-0' }} Dotz</p>
-          <p class="desc">{{ produto()!.descricao }}</p>
-          @if (insuficiente()) { <p class="warn">⚠️ Saldo insuficiente. Faltam {{ faltantes() }} Dotz.</p> }
-          <app-button [disabled]="insuficiente()" (clicked)="onResgatar()">{{ insuficiente() ? 'Saldo Insuficiente' : 'Resgatar' }}</app-button>
+    <app-navbar />
+    <main class="container detail-main">
+      @if (loading()) {
+        <app-skeleton height="300px" />
+      } @else if (produto()) {
+        <div class="detail-grid">
+          <div class="product-image-wrapper">
+            <img [src]="produto()!.imagem_url" [alt]="produto()!.nome" class="product-image" />
+          </div>
+          <div class="product-info">
+            <h1 class="product-name">{{ produto()!.nome }}</h1>
+            @if (produto()!.categoria) {
+              <p class="product-category">{{ produto()!.categoria }}</p>
+            }
+            <p class="product-description">{{ produto()!.descricao }}</p>
+            <div class="product-points-section">
+              <p class="points-label">Pontos necessários</p>
+              <p class="points-value">{{ produto()!.pontos_necessarios | number:'1.0-0' }} <span class="points-unit">Dotz</span></p>
+            </div>
+            <a
+              [routerLink]="['/checkout']"
+              [queryParams]="{ produtoId: produto()!.id }"
+              class="resgatar-link"
+            >
+              <app-button class="resgatar-btn">Resgatar agora</app-button>
+            </a>
+          </div>
         </div>
-      }</div>`,
-  styles: [`.container { max-width: 800px; margin: 0 auto; padding: 32px 16px; } .back { color: #FF6B00; text-decoration: none; font-weight: 600; } .img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 24px; margin-bottom: 24px; } h1 { font-size: 28px; font-weight: 700; } .pts { color: #FF6B00; font-size: 32px; font-weight: 700; } .desc { color: #6B7280; line-height: 1.6; margin: 16px 0; } .warn { color: #92400e; background: #fef3c7; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; }`]
+      }
+    </main>
+  `,
+  styles: [`
+    .detail-main {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-2xl);
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+    @media (min-width: 768px) {
+      .detail-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .product-image-wrapper {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .product-image {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: var(--radius-xl);
+    }
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .product-name {
+      font-size: var(--font-size-h1);
+      font-weight: var(--font-weight-h1);
+      color: var(--color-on-surface);
+      line-height: var(--font-line-height-h1);
+    }
+    .product-category {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--color-surface-container);
+      color: var(--color-on-primary-container);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-label-sm);
+      font-weight: var(--font-weight-label-sm);
+      width: fit-content;
+    }
+    .product-description {
+      font-size: var(--font-size-body-md);
+      color: var(--color-on-surface-variant);
+      line-height: var(--font-line-height-body-md);
+    }
+    .product-points-section {
+      padding: var(--space-lg);
+      background: var(--color-surface-container);
+      border-radius: var(--radius-xl);
+      margin: var(--space-md) 0;
+    }
+    .points-label {
+      font-size: var(--font-size-label-bold);
+      color: var(--color-on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+    .points-value {
+      font-size: 48px;
+      font-weight: var(--font-weight-h1);
+      color: var(--color-primary);
+      line-height: var(--font-line-height-h1);
+    }
+    .points-unit {
+      font-size: var(--font-size-h2);
+      color: var(--color-on-surface-variant);
+    }
+    .resgatar-link {
+      text-decoration: none;
+    }
+    .resgatar-btn {
+      width: 100%;
+    }
+  `]
 })
 export class DetailComponent implements OnInit {
-  private route = inject(ActivatedRoute); private router = inject(Router); private service = inject(ProdutosService); private api = inject(ApiService);
-  produto = signal<Produto | null>(null); loading = signal(true); insuficiente = signal(false); faltantes = signal(0);
-  ngOnInit(): void { const id = this.route.snapshot.paramMap.get('id'); if (!id) return; this.service.buscarPorId(id).subscribe({ next: (p) => { this.produto.set(p); this.check(p.pontos_necessarios); }, error: () => this.loading.set(false) }); }
-  check(pts: number): void { this.api.get<SaldoResponse>('/saldo').subscribe({ next: (r) => { if (r.saldo_pontos < pts) { this.insuficiente.set(true); this.faltantes.set(pts - r.saldo_pontos); } this.loading.set(false); }, error: () => this.loading.set(false) }); }
-  onResgatar(): void { this.router.navigate(['/checkout'], { queryParams: { produtoId: this.produto()?.id } }); }
+  private route = inject(ActivatedRoute);
+  private service = inject(ProdutosService);
+  produto = signal<Produto | null>(null);
+  loading = signal(true);
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.service.detalhe(id).subscribe({
+        next: (p) => {
+          this.produto.set(p);
+          this.loading.set(false);
+        },
+        error: () => this.loading.set(false)
+      });
+    }
+  }
 }

@@ -15,4 +15,5 @@ export class ProdutosService {
     return this.api.get('/produtos', params);
   }
   buscarPorId(id: string): Observable<Produto> { return this.api.get(`/produtos/${id}`); }
+  detalhe(id: string): Observable<Produto> { return this.buscarPorId(id); }
 }
