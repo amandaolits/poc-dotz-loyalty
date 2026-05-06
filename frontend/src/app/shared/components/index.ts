@@ -5,3 +5,5 @@ export { ToastComponent } from './toast/toast.component';
 export { SkeletonComponent } from './skeleton/skeleton.component';
 export { StatusChipComponent } from './status-chip/status-chip.component';
 export { EmptyStateComponent } from './empty-state/empty-state.component';
+export { NavbarComponent } from './navbar/navbar.component';
+export { SaldoDisplayComponent } from './saldo-display/saldo-display.component';
