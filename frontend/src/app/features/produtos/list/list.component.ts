@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProdutosService } from '../produtos.service';
 import { Produto } from '../../../shared/models';
@@ -10,7 +9,7 @@ import { IconComponent } from '../../../shared/icons';
 @Component({
   selector: 'app-produtos-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, FooterComponent, NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
+  imports: [CommonModule, FormsModule, FooterComponent, NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
   template: `
     <app-navbar />
     <main class="container produtos-main">
