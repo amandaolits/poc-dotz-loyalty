@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Dotz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-surface-bright text-on-background min-h-screen flex flex-col">
+<header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] h-20">
+<div class="flex justify-between items-center h-full px-6 max-w-[1200px] mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-3xl font-black text-orange-600 tracking-tighter font-['Plus_Jakarta_Sans']">Dotz</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-semibold tracking-tight text-slate-600 hover:text-orange-500 transition-colors duration-300" href="#">Ganhar Dotz</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-semibold tracking-tight text-slate-600 hover:text-orange-500 transition-colors duration-300" href="#">Trocar Dotz</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-semibold tracking-tight text-slate-600 hover:text-orange-500 transition-colors duration-300" href="#">Parceiros</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm font-semibold tracking-tight text-slate-600 hover:text-orange-500 transition-colors duration-300" href="#">Sobre</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 text-slate-500 text-sm font-medium">
+<span>Olá, visitante</span>
+<span class="h-4 w-[1px] bg-slate-300"></span>
+<a class="text-orange-600 font-bold hover:underline" href="#">Minha Conta</a>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center px-6 pt-32 pb-xl">
+<div class="w-full max-w-[480px]">
+<div class="bg-surface-container-lowest rounded-lg p-lg border border-white shadow-xl">
+<div class="text-center mb-md">
+<h1 class="font-h2 text-h2 text-on-surface mb-xs">Entrar na sua conta</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Bem-vindo de volta ao mundo Dotz</p>
+</div>
+<div class="flex items-center gap-2 mb-md p-4 bg-error-container/30 border border-error/10 rounded-full">
+<span class="material-symbols-outlined text-error text-xl">report</span>
+<span class="text-error font-label-bold text-label-bold">E-mail ou senha inválidos</span>
+</div>
+<form class="space-y-md">
+<div class="space-y-xs">
+<label class="font-label-bold text-label-bold text-on-surface ml-4" for="email">E-mail</label>
+<input class="w-full bg-surface-container-low border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary-container focus:bg-white transition-all duration-300 text-body-md" id="email" placeholder="seuemail@exemplo.com" type="email"/>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between items-center ml-4">
+<label class="font-label-bold text-label-bold text-on-surface" for="password">Senha</label>
+<a class="text-label-sm text-primary hover:underline mr-4" href="#">Esqueceu a senha?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary-container focus:bg-white transition-all duration-300 text-body-md" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary font-h3 text-h3 py-4 rounded-full shadow-lg shadow-primary-container/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300" type="submit">Entrar</button>
+</form>
+<div class="mt-lg text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">Ainda não tem conta? <a class="text-orange-600 font-bold hover:underline underline-offset-4 decoration-2" href="#">Cadastrar-se</a></p>
+</div>
+</div>
+<div class="mt-md grid grid-cols-2 gap-md">
+<div class="bg-white/50 backdrop-blur-sm p-4 rounded-lg flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-fixed rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">shield_person</span>
+</div>
+<span class="text-xs font-label-bold text-on-surface-variant">Acesso Seguro</span>
+</div>
+<div class="bg-white/50 backdrop-blur-sm p-4 rounded-lg flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-fixed rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<span class="text-xs font-label-bold text-on-surface-variant">Milhares de Trocas</span>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full py-12 mt-auto bg-slate-50 border-t border-slate-200">
+<div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<span class="text-lg font-bold text-slate-400 font-['Plus_Jakarta_Sans']">Dotz</span>
+<div class="flex gap-8">
+<a class="font-['Plus_Jakarta_Sans'] text-xs text-slate-500 hover:text-slate-800 hover:underline decoration-orange-500 underline-offset-4 transition-all" href="#">Termos</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs text-slate-500 hover:text-slate-800 hover:underline decoration-orange-500 underline-offset-4 transition-all" href="#">Privacidade</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs text-slate-500 hover:text-slate-800 hover:underline decoration-orange-500 underline-offset-4 transition-all" href="#">Ajuda</a>
+<a class="font-['Plus_Jakarta_Sans'] text-xs text-slate-500 hover:text-slate-800 hover:underline decoration-orange-500 underline-offset-4 transition-all" href="#">Contato</a>
+</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-slate-500">© 2024 Dotz. Todos os direitos reservados.</p>
+</div>
+</footer>
+</body></html>

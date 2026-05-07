@@ -6,6 +6,6 @@ import { Pedido } from '../../shared/models';
 @Injectable({ providedIn: 'root' })
 export class PedidoService {
   private api = inject(ApiService);
-  listar(): Observable<Pedido[]> { return this.api.get<Pedido[]>('/pedidos'); }
+  listar(params?: Record<string, string>): Observable<Pedido[]> { return this.api.get<Pedido[]>('/pedidos', params); }
   buscarPorId(id: string): Observable<Pedido> { return this.api.get<Pedido>(`/pedidos/${id}`); }
 }

@@ -6,8 +6,10 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.get("/", async (req, res, next) => {
-  try { res.json(await listarPedidos(req.userId)); }
-  catch (err) { next(err); }
+  try {
+    const { periodo, data_inicio, data_fim } = req.query;
+    res.json(await listarPedidos(req.userId, { periodo, data_inicio, data_fim }));
+  } catch (err) { next(err); }
 });
 
 router.get("/:id", async (req, res, next) => {

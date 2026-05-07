@@ -6,9 +6,10 @@ import { Produto, ProdutoListResponse } from '../../shared/models';
 @Injectable({ providedIn: 'root' })
 export class ProdutosService {
   private api = inject(ApiService);
-  listar(p: { categoria?: string; busca?: string; pagina?: number }): Observable<ProdutoListResponse> {
+  listar(p: { categoria?: string; subcategoria?: string; busca?: string; pagina?: number }): Observable<ProdutoListResponse> {
     const params: Record<string, string> = {};
     if (p.categoria) params['categoria'] = p.categoria;
+    if (p.subcategoria) params['subcategoria'] = p.subcategoria;
     if (p.busca) params['busca'] = p.busca;
     params['pagina'] = String(p.pagina || 1);
     params['limite'] = '12';

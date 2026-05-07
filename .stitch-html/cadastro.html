@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="antialiased text-on-background bg-background min-h-screen flex flex-col">
+<header class="bg-white dark:bg-gray-900 shadow-[0px_10px_30px_rgba(0,0,0,0.04)] fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-6 py-4 w-full max-w-[1200px] mx-auto">
+<div class="flex items-center gap-xl">
+<span class="text-2xl font-black text-orange-600 dark:text-orange-500 font-['Plus_Jakarta_Sans']">Dotz</span>
+<nav class="hidden md:flex items-center gap-gutter">
+<a class="text-gray-500 dark:text-gray-400 font-['Plus_Jakarta_Sans'] font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors px-3 py-2 rounded-md" href="#">Início</a>
+<a class="text-gray-500 dark:text-gray-400 font-['Plus_Jakarta_Sans'] font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors px-3 py-2 rounded-md" href="#">Como Funciona</a>
+<a class="text-gray-500 dark:text-gray-400 font-['Plus_Jakarta_Sans'] font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors px-3 py-2 rounded-md" href="#">Parceiros</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="text-right hidden sm:block">
+<p class="text-label-sm font-label-sm text-secondary">Olá, visitante</p>
+<p class="text-label-bold font-label-bold text-on-surface">Minha Conta</p>
+</div>
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-gray-50 transition-colors" data-icon="menu">menu</button>
+</div>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center px-gutter pt-[100px] pb-xl">
+<div class="w-full max-w-[1200px] grid md:grid-cols-2 gap-xl items-center">
+<div class="hidden md:block">
+<h1 class="font-h1 text-h1 text-on-surface mb-md">Ganhe recompensas incríveis a cada compra.</h1>
+<p class="font-body-lg text-body-lg text-secondary mb-lg max-w-[500px]">Junte-se a milhões de usuários no Dotz e transforme seus gastos do dia a dia em viagens, eletrônicos e experiências inesquecíveis.</p>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-sm p-md bg-white rounded-lg shadow-[0px_10px_30px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-primary-container" data-icon="redeem">redeem</span>
+<span class="font-label-bold text-label-bold">Mais de 50.000 opções de trocas</span>
+</div>
+<div class="flex items-center gap-sm p-md bg-white rounded-lg shadow-[0px_10px_30px_rgba(0,0,0,0.02)]">
+<span class="material-symbols-outlined text-primary-container" data-icon="rocket_launch">rocket_launch</span>
+<span class="font-label-bold text-label-bold">Acúmulo acelerado em lojas parceiras</span>
+</div>
+</div>
+</div>
+<div class="flex justify-center md:justify-end">
+<div class="bg-white p-lg md:p-xl rounded-lg shadow-[0px_10px_30px_rgba(0,0,0,0.04)] w-full max-w-[480px]">
+<div class="mb-lg">
+<h2 class="font-h2 text-h2 text-on-surface mb-xs">Criar conta</h2>
+<p class="font-body-md text-body-md text-secondary">Preencha os dados abaixo para começar a ganhar.</p>
+</div>
+<form class="flex flex-col gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-bold text-label-bold text-on-surface" for="email">E-mail</label>
+<input class="w-full p-md bg-[#F2F4F7] border-none rounded-lg focus:ring-2 focus:ring-primary-container focus:bg-white transition-all outline-none font-body-md text-body-md" id="email" name="email" placeholder="seu@email.com" type="email"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-bold text-label-bold text-on-surface" for="password">Senha</label>
+<input class="w-full p-md bg-[#F2F4F7] border-none rounded-lg focus:ring-2 focus:ring-primary-container focus:bg-white transition-all outline-none font-body-md text-body-md" id="password" name="password" placeholder="••••••••" type="password"/>
+<p class="text-label-sm font-label-sm text-secondary px-xs">Mínimo 6 caracteres</p>
+</div>
+<div class="flex items-start gap-sm mt-xs">
+<input class="mt-1 rounded border-secondary-container text-primary-container focus:ring-primary-container" id="terms" type="checkbox"/>
+<label class="text-label-sm font-label-sm text-secondary" for="terms">Li e aceito os <a class="text-primary-container font-bold underline" href="#">Termos de Uso</a> e a <a class="text-primary-container font-bold underline" href="#">Política de Privacidade</a>.</label>
+</div>
+<button class="w-full py-md px-lg bg-primary-container text-white font-label-bold text-lg rounded-full shadow-lg shadow-orange-200 hover:opacity-90 active:scale-[0.98] transition-all mt-md" type="submit">Cadastrar</button>
+</form>
+<div class="mt-lg pt-lg border-t border-gray-100 text-center">
+<a class="font-body-md text-body-md text-secondary" href="#">Já tenho conta? <span class="text-primary-container font-bold hover:underline">Faça login</span></a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed -bottom-20 -left-20 w-80 h-80 bg-orange-100/30 rounded-full blur-3xl -z-10"></div>
+<div class="fixed top-20 right-10 w-40 h-40 bg-orange-100/20 rounded-full blur-2xl -z-10"></div>
+</body></html>
