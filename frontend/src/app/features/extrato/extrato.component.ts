@@ -2,13 +2,13 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { Transacao } from '../../shared/models';
-import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent } from '../../shared/components';
+import { FooterComponent, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent } from '../../shared/components';
 import { IconComponent } from '../../shared/icons';
 
 @Component({
   selector: 'app-extrato',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
+  imports: [CommonModule, FooterComponent, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
   template: `
     <app-navbar />
     <main class="container extrato-main">
@@ -51,6 +51,7 @@ import { IconComponent } from '../../shared/icons';
         </div>
       }
     </main>
+    <app-footer />
   `,
   styles: [`
     .extrato-main {

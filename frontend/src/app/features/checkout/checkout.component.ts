@@ -5,12 +5,12 @@ import { ProdutosService } from '../../features/produtos/produtos.service';
 import { EnderecoService } from '../../features/enderecos/endereco.service';
 import { ApiService } from '../../core/services/api.service';
 import { Produto, Endereco } from '../../shared/models';
-import { NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent } from '../../shared/components';
+import { FooterComponent, NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent } from '../../shared/components';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent],
+  imports: [CommonModule, RouterLink, FooterComponent, NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent],
   template: `
     <app-navbar />
     <main class="container checkout-main">
@@ -67,6 +67,7 @@ import { NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent } fr
         </div>
       }
     </main>
+    <app-footer />
   `,
   styles: [`
     .checkout-main {

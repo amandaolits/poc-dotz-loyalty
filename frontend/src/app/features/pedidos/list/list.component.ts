@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PedidoService } from '../pedido.service';
 import { Pedido } from '../../../shared/models';
-import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, StatusChipComponent } from '../../../shared/components';
+import { FooterComponent, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, StatusChipComponent } from '../../../shared/components';
 
 @Component({
   selector: 'app-pedidos-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, StatusChipComponent],
+  imports: [CommonModule, RouterLink, FooterComponent, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, StatusChipComponent],
   template: `
     <app-navbar />
     <main class="container pedidos-main">
@@ -43,6 +43,7 @@ import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent,
         </div>
       }
     </main>
+    <app-footer />
   `,
   styles: [`
     .pedidos-main {

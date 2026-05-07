@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProdutosService } from '../produtos.service';
 import { Produto } from '../../../shared/models';
-import { NavbarComponent, ButtonComponent, SkeletonComponent } from '../../../shared/components';
+import { FooterComponent, NavbarComponent, ButtonComponent, SkeletonComponent } from '../../../shared/components';
 
 @Component({
   selector: 'app-produto-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, ButtonComponent, SkeletonComponent],
+  imports: [CommonModule, RouterLink, FooterComponent, NavbarComponent, ButtonComponent, SkeletonComponent],
   template: `
     <app-navbar />
     <main class="container detail-main">
@@ -40,6 +40,7 @@ import { NavbarComponent, ButtonComponent, SkeletonComponent } from '../../../sh
         </div>
       }
     </main>
+    <app-footer />
   `,
   styles: [`
     .detail-main {

@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { EnderecoService } from '../endereco.service';
 import { Endereco } from '../../../shared/models';
-import { NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
+import { FooterComponent, NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
 
 @Component({
   selector: 'app-enderecos-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterLink, FooterComponent, NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent, EmptyStateComponent],
   template: `
     <app-navbar />
     <main class="container enderecos-main">
@@ -50,6 +50,7 @@ import { NavbarComponent, ButtonComponent, CardComponent, SkeletonComponent, Emp
         </div>
       }
     </main>
+    <app-footer />
   `,
   styles: [`
     .enderecos-main {

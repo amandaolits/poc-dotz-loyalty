@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { ApiService } from '../../core/services/api.service';
 import { SaldoResponse } from '../../shared/models';
-import { NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent } from '../../shared/components';
+import { FooterComponent, NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent } from '../../shared/components';
 import { IconComponent } from '../../shared/icons';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent, IconComponent],
+  imports: [CommonModule, RouterLink, FooterComponent, NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent, IconComponent],
   template: `
     <app-navbar />
     <main class="container dashboard-main">
@@ -52,6 +52,7 @@ import { IconComponent } from '../../shared/icons';
         </div>
       </div>
     </main>
+    <app-footer />
   `,
   styles: [`
     .dashboard-main {
