@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { ProdutosService } from '../produtos.service';
 import { Produto } from '../../../shared/models';
 import { NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
+import { IconComponent } from '../../../shared/icons';
 
 @Component({
   selector: 'app-produtos-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
   template: `
     <app-navbar />
     <main class="container produtos-main">
@@ -23,7 +24,7 @@ import { NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateCom
             (ngModelChange)="load()"
             class="search-input"
           />
-          <span class="search-icon">🔍</span>
+          <span class="search-icon"><app-icon name="search" [size]="16" /></span>
         </div>
       </div>
 
@@ -91,8 +92,9 @@ import { NavbarComponent, ProductCardComponent, SkeletonComponent, EmptyStateCom
       left: var(--space-md);
       top: 50%;
       transform: translateY(-50%);
-      font-size: 16px;
       color: var(--color-on-surface-variant);
+      display: flex;
+      align-items: center;
     }
     .produtos-grid {
       display: grid;
