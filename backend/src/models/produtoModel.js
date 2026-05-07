@@ -17,7 +17,19 @@ async function listar({ categoria, subcategoria, busca, pagina = 1, limite = 10 
     [...values, limite, offset]
   );
 
-  return { produtos: result.rows, total: parseInt(countResult.rows[0].count, 10), pagina: parseInt(pagina, 10), limite: parseInt(limite, 10) };
+  const catResult = await pool.query("SELECT DISTINCT categoria FROM produtos WHERE ativo = true AND categoria IS NOT NULL ORDER BY categoria");
+  const categorias = catResult.rows.map(r => r.categoria);
+
+  let subcategorias;
+  if (categoria) {
+    const subResult = await pool.query("SELECT DISTINCT subcategoria FROM produtos WHERE ativo = true AND categoria = $1 AND subcategoria IS NOT NULL ORDER BY subcategoria", [categoria]);
+    subcategorias = subResult.rows.map(r => r.subcategoria);
+  } else {
+    const subResult = await pool.query("SELECT DISTINCT subcategoria FROM produtos WHERE ativo = true AND subcategoria IS NOT NULL ORDER BY subcategoria");
+    subcategorias = subResult.rows.map(r => r.subcategoria);
+  }
+
+  return { produtos: result.rows, total: parseInt(countResult.rows[0].count, 10), pagina: parseInt(pagina, 10), limite: parseInt(limite, 10), categorias, subcategorias };
 }
 
 async function buscarPorId(arg1, arg2) {

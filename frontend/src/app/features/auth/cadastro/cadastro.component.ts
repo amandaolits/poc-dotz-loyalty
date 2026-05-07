@@ -1,9 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { IconComponent } from '../../../shared/icons/icon.component';
+
+const senhasIguais: ValidatorFn = (c: AbstractControl): ValidationErrors | null => {
+  const senha = c.get('senha');
+  const confirmar = c.get('confirmarSenha');
+  return senha && confirmar && senha.value !== confirmar.value ? { senhasDiferentes: true } : null;
+};
 
 @Component({
   selector: 'app-cadastro',
@@ -60,6 +66,13 @@ import { IconComponent } from '../../../shared/icons/icon.component';
               <p class="card-subtitle">Preencha os dados abaixo para começar a ganhar.</p>
             </div>
 
+            @if (errorMessage) {
+            <div class="error-banner">
+              <app-icon name="alert-circle" [size]="20" color="#DC2626" />
+              <span>{{ errorMessage }}</span>
+            </div>
+            }
+
             <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
               <div class="field">
                 <label class="field-label" for="email">E-mail</label>
@@ -100,10 +113,10 @@ import { IconComponent } from '../../../shared/icons/icon.component';
                   formControlName="confirmarSenha"
                   placeholder="Confirme sua senha"
                   class="input"
-                  [class.input-error]="form.get('confirmarSenha')?.touched && form.get('confirmarSenha')?.invalid"
+                  [class.input-error]="(form.get('confirmarSenha')?.touched && form.get('confirmarSenha')?.invalid) || (form.hasError('senhasDiferentes') && form.get('confirmarSenha')?.touched)"
                 />
-                @if (form.get('confirmarSenha')?.touched && form.get('confirmarSenha')?.invalid) {
-                  <span class="field-error">{{ getError('confirmarSenha') }}</span>
+                @if (form.get('confirmarSenha')?.touched && (form.get('confirmarSenha')?.invalid || form.hasError('senhasDiferentes'))) {
+                  <span class="field-error">{{ getError('confirmarSenha') || 'Senhas não conferem' }}</span>
                 }
               </div>
 
@@ -334,6 +347,19 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       width: 100%;
       max-width: 480px;
     }
+    .error-banner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-error-container);
+      border: 1px solid rgba(220, 38, 38, 0.15);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-label-bold);
+      font-weight: var(--font-weight-label-bold);
+      color: var(--color-on-error-container);
+    }
 
     @media (min-width: 768px) {
       .card {
@@ -524,9 +550,10 @@ export class CadastroComponent {
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required, Validators.minLength(6)]],
     confirmarSenha: ['', Validators.required]
-  });
+  }, { validators: senhasIguais });
 
   loading = false;
+  errorMessage: string | null = null;
 
   getError(f: string): string {
     const c = this.form.get(f);
@@ -534,18 +561,20 @@ export class CadastroComponent {
     if (c.errors?.['required']) return 'Campo obrigatório';
     if (c.errors?.['email']) return 'Email inválido';
     if (c.errors?.['minlength']) return 'Mínimo 6 caracteres';
-    if (f === 'confirmarSenha' && this.form.value.senha !== this.form.value.confirmarSenha) return 'Senhas não conferem';
     return '';
   }
 
   onSubmit(): void {
     if (this.form.invalid || this.loading) return;
-    if (this.form.value.senha !== this.form.value.confirmarSenha) return;
     this.loading = true;
+    this.errorMessage = null;
     const { email, senha } = this.form.value;
     this.auth.cadastre(email!, senha!).subscribe({
       next: () => this.router.navigate(['/login']),
-      error: () => this.loading = false
+      error: (err) => {
+        this.loading = false;
+        this.errorMessage = err.error?.erro || 'Erro ao cadastrar. Tente novamente.';
+      }
     });
   }
 }

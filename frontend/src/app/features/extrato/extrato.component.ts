@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { Transacao } from '../../shared/models';
@@ -90,12 +90,13 @@ import { IconComponent } from '../../shared/icons';
               </div>
 
               <div class="table-footer">
-                <span class="footer-info">Mostrando {{ transacoes().length }} transações</span>
+                <span class="footer-info">Mostrando {{ transacoes().length }} de {{ total() }} transações</span>
                 <div class="pagination-btns">
-                  <button class="pagination-btn" disabled>
+                  <button class="pagination-btn" [disabled]="pagina() <= 1" (click)="irPagina(pagina() - 1)">
                     <app-icon name="chevron-left" [size]="20" />
                   </button>
-                  <button class="pagination-btn">
+                  <span class="page-indicator">{{ pagina() }} / {{ totalPages() }}</span>
+                  <button class="pagination-btn" [disabled]="pagina() >= totalPages()" (click)="irPagina(pagina() + 1)">
                     <app-icon name="chevron-right" [size]="20" />
                   </button>
                 </div>
@@ -218,6 +219,13 @@ import { IconComponent } from '../../shared/icons';
     }
     .pagination-btn:hover:not(:disabled) { background: var(--color-surface-variant); }
     .pagination-btn:disabled { opacity: 0.5; cursor: default; }
+    .page-indicator {
+      font-size: var(--font-size-label-sm);
+      color: var(--color-on-surface-variant);
+      padding: 0 var(--space-sm);
+      min-width: 48px;
+      text-align: center;
+    }
     .empty-state { text-align: center; padding: var(--space-2xl); color: var(--color-on-surface-variant); }
     .tx-icon-skeleton, .tx-info-skeleton, .tx-date-skeleton, .tx-points-skeleton { display: flex; flex-direction: column; gap: var(--space-sm); }
     .tx-info-skeleton { flex: 1; }
@@ -228,6 +236,11 @@ export class ExtratoComponent implements OnInit {
   transacoes = signal<Transacao[]>([]);
   loading = signal(true);
   filtroAtivo = signal<string>('1m');
+  pagina = signal(1);
+  total = signal(0);
+  limite = 10;
+
+  totalPages = computed(() => Math.ceil(this.total() / this.limite));
 
   ngOnInit(): void {
     this.carregar();
@@ -235,18 +248,25 @@ export class ExtratoComponent implements OnInit {
 
   private carregar(): void {
     this.loading.set(true);
-    const params: Record<string, string> = {};
+    const params: Record<string, string> = { pagina: String(this.pagina()), limite: String(this.limite) };
     if (this.filtroAtivo() !== 'todas') {
       params['periodo'] = this.filtroAtivo();
     }
-    this.api.get<{ transacoes: Transacao[] }>('/extrato', params).subscribe({
-      next: (r) => { this.transacoes.set(r.transacoes); this.loading.set(false); },
+    this.api.get<{ transacoes: Transacao[]; total: number }>('/extrato', params).subscribe({
+      next: (r) => { this.transacoes.set(r.transacoes); this.total.set(r.total); this.loading.set(false); },
       error: () => this.loading.set(false)
     });
   }
 
   aplicarFiltro(periodo: string): void {
     this.filtroAtivo.set(periodo);
+    this.pagina.set(1);
+    this.carregar();
+  }
+
+  irPagina(p: number): void {
+    if (p < 1 || p > this.totalPages()) return;
+    this.pagina.set(p);
     this.carregar();
   }
 }

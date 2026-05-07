@@ -21,10 +21,10 @@ import { IconComponent } from '../../../shared/icons/icon.component';
     <main class="main">
       <div class="main-inner">
         <div class="card">
-          @if (error) {
+          @if (errorMessage) {
           <div class="error-banner">
             <app-icon name="alert-circle" [size]="20" color="#DC2626" />
-            <span>E-mail ou senha inválidos</span>
+            <span>{{ errorMessage }}</span>
           </div>
           }
 
@@ -327,16 +327,16 @@ import { IconComponent } from '../../../shared/icons/icon.component';
 
     .submit-btn {
       width: 100%;
-      background: var(--color-primary-container);
-      color: var(--color-on-primary-container);
-      font-size: var(--font-size-h3);
-      font-weight: var(--font-weight-h3);
-      padding: 16px 0;
+      padding: 16px 24px;
+      background: var(--color-primary);
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
       border: none;
-      border-radius: var(--radius-xl);
+      border-radius: 9999px;
       cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.25);
+      box-shadow: 0 10px 15px -3px rgba(255, 107, 0, 0.3);
+      transition: all 0.2s;
     }
 
     .submit-btn:hover:not(:disabled) {
@@ -482,7 +482,7 @@ export class LoginComponent {
   });
 
   loading = false;
-  error = false;
+  errorMessage: string | null = null;
   showPassword = false;
 
   getError(f: string): string {
@@ -497,13 +497,13 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.form.invalid || this.loading) return;
     this.loading = true;
-    this.error = false;
+    this.errorMessage = null;
     const { email, senha } = this.form.value;
     this.auth.login(email!, senha!).subscribe({
       next: () => this.router.navigate(['/dashboard']),
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.error = true;
+        this.errorMessage = err.error?.erro || 'Erro ao fazer login. Tente novamente.';
       }
     });
   }

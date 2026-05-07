@@ -189,10 +189,25 @@ import { IconComponent } from '../../../shared/icons';
       border-color: var(--color-primary-container);
       box-shadow: 0 0 0 2px var(--color-primary-fixed);
     }
-    .hero-card__select { position: relative; }
+    .hero-card__select {
+      position: relative;
+    }
+    .hero-card__select::after {
+      content: '';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--color-on-surface-variant);
+      pointer-events: none;
+    }
     .hero-card__select-input {
       width: 100%;
-      padding: 12px 16px;
+      padding: 12px 36px 12px 16px;
       background: var(--color-surface);
       border: 1px solid var(--color-outline-variant);
       border-radius: var(--radius-xl);
@@ -404,15 +419,8 @@ export class ListComponent implements OnInit {
       next: (r) => {
         this.produtos.set(r.produtos);
         this.total.set(r.total);
-        const cats = [...new Set(r.produtos.map(p => p.categoria).filter(Boolean))] as string[];
-        this.categorias.set(cats);
-        if (this.subcategoria && this.categoria) {
-          const subs = [...new Set(r.produtos.filter(p => p.categoria === this.categoria).map(p => p.subcategoria).filter(Boolean))] as string[];
-          this.subcategorias.set(subs);
-        } else {
-          const subs = [...new Set(r.produtos.map(p => p.subcategoria).filter(Boolean))] as string[];
-          this.subcategorias.set(subs);
-        }
+        this.categorias.set(r.categorias || []);
+        this.subcategorias.set(r.subcategorias || []);
         this.loading.set(false);
       },
       error: () => this.loading.set(false)
