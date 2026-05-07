@@ -146,22 +146,25 @@ import { IconComponent } from '../../../shared/icons';
       margin: 0;
     }
     .points-card {
-      background: var(--color-primary);
-      border-radius: var(--radius-full);
-      padding: var(--space-lg);
+      background: var(--color-surface);
+      border-radius: 24px;
+      padding: var(--space-xl);
+      border: 1px solid var(--color-outline-variant);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
     }
     .points-value {
-      font-size: 48px;
+      font-size: var(--font-size-h2);
       font-weight: var(--font-weight-h1);
-      color: var(--color-on-primary);
+      color: var(--color-primary);
       line-height: 1;
     }
     .points-subtitle {
-      font-size: var(--font-size-label-sm);
-      font-weight: var(--font-weight-label-sm);
-      color: var(--color-on-primary);
-      margin-top: var(--space-sm);
-      margin-bottom: 0;
+      font-size: var(--font-size-body-md);
+      color: var(--color-on-surface-variant);
+      margin: 0;
     }
     .features-list {
       display: flex;
@@ -184,6 +187,9 @@ import { IconComponent } from '../../../shared/icons';
     }
     .resgatar-btn {
       width: 100%;
+      border-radius: var(--radius-xl) !important;
+      padding: 16px 24px;
+      font-size: var(--font-size-body-lg);
     }
   `]
 })

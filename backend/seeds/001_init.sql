@@ -41,45 +41,50 @@ INSERT INTO produtos (id, nome, descricao, pontos_necessarios, categoria, subcat
   ('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15', 'Cupom R$ 100 Airbnb',         'Cupom de desconto de R$100 no Airbnb',                       4000,  'Cupons',      'Viagem',       'https://a-static.mlcdn.com.br/300xq100/https://a-static.mlcdn.com.br/1500x1500/cartao-presente-airbnb-100-digital/magazineluiza/238759100/47ce0b4e80bd4a60f31c7e6cb6f82f7d.jpg', true);
 
 -- Transações (extrato)
-INSERT INTO transacoes (usuario_id, tipo, pontos, descricao) VALUES
+INSERT INTO transacoes (usuario_id, tipo, pontos, descricao, data_criacao) VALUES
   -- Maria: ganhos
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   10000, 'Bonus de cadastro'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   15000, 'Compra no parceiro Magazine Luiza'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   8000,  'Compra no parceiro iFood'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   5000,  'Compra no parceiro Uber'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   7000,  'Compra no parceiro Amazon'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   5000,  'Bonus promocao dobra de pontos'),
-  -- Maria: resgate
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'resgate', 3500,  'Resgate: Fone Bluetooth JBL'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   10000, 'Bonus de cadastro',                   '2025-11-15 09:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   15000, 'Compra no parceiro Magazine Luiza',   '2025-12-20 14:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   8000,  'Compra no parceiro iFood',            '2026-01-10 11:15:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   5000,  'Compra no parceiro Uber',             '2026-02-14 08:45:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   7000,  'Compra no parceiro Amazon',           '2026-03-05 16:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'ganho',   5000,  'Bonus promocao dobra de pontos',      '2026-04-01 10:00:00'),
+  -- Maria: resgates
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'resgate', 3500,  'Resgate: Fone Bluetooth JBL',         '2026-04-15 10:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'resgate', 2200,  'Resgate: Cupom R$ 50 Magalu',         '2026-05-06 09:15:00'),
   -- João: ganhos
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   5000,  'Bonus de cadastro'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   6000,  'Compra no parceiro iFood'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   4000,  'Compra no parceiro Amazon'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   3000,  'Compra no parceiro Spotify'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   5000,  'Bonus de cadastro',                   '2026-01-05 09:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   6000,  'Compra no parceiro iFood',            '2026-02-10 12:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   4000,  'Compra no parceiro Amazon',           '2026-03-01 15:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'ganho',   3000,  'Compra no parceiro Spotify',          '2026-03-20 10:45:00'),
   -- João: resgates
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'resgate', 800,   'Resgate: Garrafa Termica'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'resgate', 1200,  'Resgate: Camiseta Dotz'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'resgate', 800,   'Resgate: Garrafa Termica',            '2026-04-10 14:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'resgate', 1200,  'Resgate: Camiseta Dotz',              '2026-04-25 11:30:00'),
   -- Ana: ganho único (saldo baixo)
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 'ganho',   500,   'Bonus de cadastro'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 'ganho',   500,   'Bonus de cadastro',                   '2026-05-01 09:00:00'),
   -- Carlos: ganhos
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   10000, 'Bonus de cadastro'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   12000, 'Compra no parceiro Magazine Luiza'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   8000,  'Compra no parceiro iFood'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   6000,  'Compra no parceiro Americanas'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   9000,  'Bonus promocao triple de pontos'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   10000, 'Bonus de cadastro',                   '2025-12-01 09:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   12000, 'Compra no parceiro Magazine Luiza',   '2026-01-15 14:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   8000,  'Compra no parceiro iFood',            '2026-02-20 10:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   6000,  'Compra no parceiro Americanas',       '2026-03-10 11:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'ganho',   9000,  'Bonus promocao triple de pontos',     '2026-04-05 09:30:00'),
   -- Carlos: resgates
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'resgate', 4500,  'Resgate: Smartwatch Xiaomi'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'resgate', 2500,  'Resgate: Gift Card Amazon R$ 50'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'resgate', 4500,  'Resgate: Smartwatch Xiaomi',          '2026-04-20 15:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'resgate', 2500,  'Resgate: Gift Card Amazon R$ 50',     '2026-05-05 10:00:00'),
   -- Juliana: ganhos
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   3000,  'Bonus de cadastro'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   4000,  'Compra no parceiro Uber'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   2000,  'Compra no parceiro iFood'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   1000,  'Bonus indicacao amigo');
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   3000,  'Bonus de cadastro',                   '2026-03-01 09:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   4000,  'Compra no parceiro Uber',             '2026-04-01 08:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   2000,  'Compra no parceiro iFood',            '2026-04-20 12:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'ganho',   1000,  'Bonus indicacao amigo',               '2026-05-02 14:00:00'),
+  -- Juliana: resgates
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'resgate', 500,   'Resgate: Cupom R$ 10 iFood',          '2026-05-03 10:00:00');
 
 -- Pedidos (histórico de resgates)
-INSERT INTO pedidos (usuario_id, produto_id, endereco_entrega_id, pontos_gastos, status) VALUES
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 3500, 'Entregue'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a07', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 800,  'Entregue'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 1200, 'Entregue'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a09', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', 4500, 'Entregue'),
-  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', 2500, 'Entregue');
+INSERT INTO pedidos (usuario_id, produto_id, endereco_entrega_id, pontos_gastos, status, data_pedido) VALUES
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 3500, 'Entregue',    '2026-04-15 10:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a07', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 800,  'Entregue',    '2026-04-10 14:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03', 1200, 'Entregue',    '2026-04-25 11:30:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a09', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', 4500, 'Em transito', '2026-04-20 15:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06', 2500, 'Confirmado',  '2026-05-05 10:00:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a08', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 2200, 'Confirmado',  '2026-05-06 09:15:00'),
+  ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a08', 500,  'Confirmado',  '2026-05-03 10:00:00');

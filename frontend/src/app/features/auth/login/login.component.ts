@@ -10,53 +10,45 @@ import { IconComponent } from '../../../shared/icons/icon.component';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink, IconComponent],
   template: `
+    <div class="bg-gradient"></div>
+
     <header class="header">
       <div class="header-inner">
-        <div class="header-left">
-          <span class="logo">Dotz</span>
-          <nav class="header-nav">
-            <a class="nav-link" href="#">Ganhar Dotz</a>
-            <a class="nav-link" href="#">Trocar Dotz</a>
-            <a class="nav-link" href="#">Parceiros</a>
-            <a class="nav-link" href="#">Sobre</a>
-          </nav>
-        </div>
-        <div class="header-right">
-          <div class="header-greeting">
-            <span class="greeting-text">Olá, visitante</span>
-            <span class="greeting-divider"></span>
-            <a class="greeting-link" href="#">Minha Conta</a>
-          </div>
-        </div>
+        <span class="logo">Dotz</span>
       </div>
     </header>
 
     <main class="main">
       <div class="main-inner">
         <div class="card">
-          <div class="card-header">
-            <h1 class="text-h2 text-on-surface">Entrar na sua conta</h1>
-            <p class="text-body-md text-on-surface-variant" style="margin-top: var(--space-xs)">Bem-vindo de volta ao mundo Dotz</p>
-          </div>
-
           @if (error) {
           <div class="error-banner">
             <app-icon name="alert-circle" [size]="20" color="#DC2626" />
-            <span class="error-text">E-mail ou senha inválidos</span>
+            <span>E-mail ou senha inválidos</span>
           </div>
           }
+
+          <div class="card-header">
+            <h1 class="card-title">Boas-vindas de volta</h1>
+            <p class="card-subtitle">Acesse sua conta para gerenciar seus Dotz.</p>
+          </div>
 
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="field">
               <label class="field-label" for="email">E-mail</label>
-              <input
-                id="email"
-                type="email"
-                formControlName="email"
-                placeholder="seuemail@exemplo.com"
-                class="input"
-                [class.input-error]="form.get('email')?.touched && form.get('email')?.invalid"
-              />
+              <div class="input-wrapper">
+                <div class="input-icon-left">
+                  <app-icon name="mail" [size]="20" color="#8e7164" />
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="seuemail@exemplo.com"
+                  class="input"
+                  [class.input-error]="form.get('email')?.touched && form.get('email')?.invalid"
+                />
+              </div>
             </div>
 
             <div class="field">
@@ -64,12 +56,15 @@ import { IconComponent } from '../../../shared/icons/icon.component';
                 <label class="field-label" for="password">Senha</label>
                 <a class="forgot-link" href="#">Esqueceu a senha?</a>
               </div>
-              <div class="password-wrapper">
+              <div class="input-wrapper">
+                <div class="input-icon-left">
+                  <app-icon name="lock" [size]="20" color="#8e7164" />
+                </div>
                 <input
                   id="password"
                   [type]="showPassword ? 'text' : 'password'"
                   formControlName="senha"
-                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
                   class="input"
                   [class.input-error]="form.get('senha')?.touched && form.get('senha')?.invalid"
                 />
@@ -84,23 +79,36 @@ import { IconComponent } from '../../../shared/icons/icon.component';
             </button>
           </form>
 
-          <div class="register-link">
-            <p class="register-text">Ainda não tem conta? <a class="register-anchor" routerLink="/cadastro">Cadastrar-se</a></p>
+          <div class="social-divider">
+            <span class="divider-line"></span>
+            <span class="divider-text">ou continue com</span>
+            <span class="divider-line"></span>
           </div>
-        </div>
 
-        <div class="promo-grid">
-          <div class="promo-card">
-            <div class="promo-icon-wrap">
-              <app-icon name="shield" [size]="20" color="var(--color-primary)" />
-            </div>
-            <span class="promo-label">Acesso Seguro</span>
+          <div class="social-buttons">
+            <button type="button" class="social-btn" (click)="loginGoogle()">
+              <span class="social-btn-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+              </span>
+              Entrar com Google
+            </button>
+            <button type="button" class="social-btn" (click)="loginApple()">
+              <span class="social-btn-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" fill="currentColor"/>
+                </svg>
+              </span>
+              Entrar com Apple
+            </button>
           </div>
-          <div class="promo-card">
-            <div class="promo-icon-wrap">
-              <app-icon name="shopping-bag" [size]="20" color="var(--color-primary)" />
-            </div>
-            <span class="promo-label">Milhares de Trocas</span>
+
+          <div class="register-link">
+            <p class="register-text">Ainda não tem conta? <a class="register-anchor" routerLink="/cadastro">Cadastre-se</a></p>
           </div>
         </div>
       </div>
@@ -110,12 +118,11 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       <div class="footer-inner">
         <span class="footer-logo">Dotz</span>
         <div class="footer-links">
-          <a class="footer-link" href="#">Termos</a>
           <a class="footer-link" href="#">Privacidade</a>
+          <a class="footer-link" href="#">Termos</a>
           <a class="footer-link" href="#">Ajuda</a>
-          <a class="footer-link" href="#">Contato</a>
+          <a class="footer-link" href="#">Parceiros</a>
         </div>
-        <p class="footer-copy">&copy; 2024 Dotz. Todos os direitos reservados.</p>
       </div>
     </footer>
   `,
@@ -125,34 +132,34 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       flex-direction: column;
       min-height: 100vh;
       background: var(--color-background);
+      font-family: var(--font-family);
+    }
+
+    .bg-gradient {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: linear-gradient(to bottom, transparent, var(--color-surface-container-low));
+      pointer-events: none;
+      z-index: 0;
     }
 
     .header {
-      position: fixed;
+      position: sticky;
       top: 0;
-      width: 100%;
       z-index: 50;
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid #f1f5f9;
-      height: 80px;
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 0;
     }
 
     .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 100%;
-      padding: 0 24px;
       max-width: 1200px;
       margin: 0 auto;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 32px;
+      padding: 0 24px;
+      text-align: center;
     }
 
     .logo {
@@ -163,83 +170,26 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       line-height: 1;
     }
 
-    .header-nav {
-      display: none;
-      gap: 24px;
-    }
-
-    @media (min-width: 768px) {
-      .header-nav { display: flex; }
-    }
-
-    .nav-link {
-      font-size: 14px;
-      font-weight: 600;
-      color: #475569;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .nav-link:hover { color: #ea580c; }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .header-greeting {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      color: #64748b;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    @media (min-width: 640px) {
-      .header-greeting { display: flex; }
-    }
-
-    .greeting-divider {
-      display: inline-block;
-      width: 1px;
-      height: 16px;
-      background: #cbd5e1;
-    }
-
-    .greeting-link {
-      color: #ea580c;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .greeting-link:hover { text-decoration: underline; }
-
     .main {
       flex-grow: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 128px 24px 24px;
+      padding: 48px 24px;
+      position: relative;
+      z-index: 1;
     }
 
     .main-inner {
       width: 100%;
-      max-width: 480px;
+      max-width: 420px;
     }
 
     .card {
       background: white;
       border-radius: var(--radius-lg);
       padding: var(--space-lg);
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-    }
-
-    .card-header {
-      text-align: center;
-      margin-bottom: var(--space-md);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
     }
 
     .error-banner {
@@ -247,16 +197,33 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       align-items: center;
       gap: 8px;
       margin-bottom: var(--space-md);
-      padding: var(--space-md);
-      background: rgba(254, 226, 226, 0.3);
-      border: 1px solid rgba(220, 38, 38, 0.1);
-      border-radius: var(--radius-full);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-error-container);
+      border: 1px solid rgba(220, 38, 38, 0.15);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-label-bold);
+      font-weight: var(--font-weight-label-bold);
+      color: var(--color-on-error-container);
     }
 
-    .error-text {
-      color: var(--color-error);
-      font-weight: var(--font-weight-label-bold);
-      font-size: var(--font-size-label-bold);
+    .card-header {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .card-title {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-h2);
+      color: var(--color-on-surface);
+      line-height: var(--font-line-height-h2);
+      margin-bottom: var(--space-xs);
+    }
+
+    .card-subtitle {
+      font-size: var(--font-size-body-md);
+      font-weight: var(--font-weight-body-md);
+      color: var(--color-on-surface-variant);
+      line-height: var(--font-line-height-body-md);
     }
 
     form {
@@ -275,40 +242,53 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       font-size: var(--font-size-label-bold);
       font-weight: var(--font-weight-label-bold);
       color: var(--color-on-surface);
-      margin-left: var(--space-md);
+      margin-left: 4px;
     }
 
     .password-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-left: var(--space-md);
     }
 
     .forgot-link {
       font-size: var(--font-size-label-sm);
+      font-weight: var(--font-weight-label-sm);
       color: var(--color-primary);
       text-decoration: none;
-      margin-right: var(--space-md);
+      margin-right: 4px;
     }
 
-    .forgot-link:hover { text-decoration: underline; }
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
 
-    .password-wrapper {
+    .input-wrapper {
       position: relative;
+    }
+
+    .input-icon-left {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .input {
       width: 100%;
+      padding: 16px 16px 16px 48px;
       background: var(--color-surface-container-low);
-      border: none;
-      border-radius: var(--radius-full);
-      padding: 16px 24px;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-xl);
       font-size: var(--font-size-body-md);
       font-family: inherit;
       color: var(--color-on-surface);
-      transition: all 0.3s;
       outline: none;
+      transition: all 0.3s;
     }
 
     .input::placeholder {
@@ -317,17 +297,19 @@ import { IconComponent } from '../../../shared/icons/icon.component';
     }
 
     .input:focus {
-      box-shadow: 0 0 0 2px var(--color-primary-container);
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.15);
       background: white;
     }
 
     .input-error {
-      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3);
+      border-color: var(--color-error) !important;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15) !important;
     }
 
     .toggle-vis {
       position: absolute;
-      right: 20px;
+      right: 16px;
       top: 50%;
       transform: translateY(-50%);
       color: #94a3b8;
@@ -339,28 +321,30 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       align-items: center;
     }
 
-    .toggle-vis:hover { color: #475569; }
+    .toggle-vis:hover {
+      color: #475569;
+    }
 
     .submit-btn {
       width: 100%;
       background: var(--color-primary-container);
-      color: var(--color-on-primary);
+      color: var(--color-on-primary-container);
       font-size: var(--font-size-h3);
       font-weight: var(--font-weight-h3);
       padding: 16px 0;
       border: none;
-      border-radius: var(--radius-full);
+      border-radius: var(--radius-xl);
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.2);
+      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.25);
     }
 
     .submit-btn:hover:not(:disabled) {
-      transform: scale(1.02);
+      filter: brightness(0.95);
     }
 
     .submit-btn:active:not(:disabled) {
-      transform: scale(0.98);
+      filter: brightness(0.9);
     }
 
     .submit-btn:disabled {
@@ -368,68 +352,86 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       cursor: not-allowed;
     }
 
+    .social-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: var(--space-md) 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .divider-text {
+      font-size: var(--font-size-label-sm);
+      font-weight: var(--font-weight-label-sm);
+      color: var(--color-on-surface-variant);
+      white-space: nowrap;
+    }
+
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 0;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-xl);
+      font-size: var(--font-size-body-md);
+      font-weight: 500;
+      color: var(--color-on-surface);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .social-btn-icon {
+      display: flex;
+      align-items: center;
+    }
+
     .register-link {
-      margin-top: var(--space-lg);
       text-align: center;
     }
 
     .register-text {
       font-size: var(--font-size-body-md);
+      font-weight: var(--font-weight-body-md);
       color: var(--color-on-surface-variant);
     }
 
     .register-anchor {
-      color: #ea580c;
+      color: var(--color-primary);
       font-weight: 700;
       text-decoration: none;
     }
 
     .register-anchor:hover {
       text-decoration: underline;
-      text-underline-offset: 4px;
-      text-decoration-thickness: 2px;
-    }
-
-    .promo-grid {
-      margin-top: var(--space-md);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-md);
-    }
-
-    .promo-card {
-      background: rgba(255,255,255,0.5);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      padding: var(--space-md);
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .promo-icon-wrap {
-      width: 40px;
-      height: 40px;
-      background: var(--color-primary-fixed);
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .promo-label {
-      font-size: 12px;
-      font-weight: var(--font-weight-label-bold);
-      color: var(--color-on-surface-variant);
     }
 
     .footer {
-      width: 100%;
-      padding: 48px 0;
-      margin-top: auto;
-      background: #f8fafc;
+      background: #f9fafb;
       border-top: 1px solid #e2e8f0;
+      padding: 24px 0;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-inner {
@@ -437,16 +439,10 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       gap: 24px;
-    }
-
-    @media (min-width: 768px) {
-      .footer-inner {
-        flex-direction: row;
-        justify-content: space-between;
-      }
     }
 
     .footer-logo {
@@ -457,7 +453,9 @@ import { IconComponent } from '../../../shared/icons/icon.component';
 
     .footer-links {
       display: flex;
-      gap: 32px;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .footer-link {
@@ -470,13 +468,6 @@ import { IconComponent } from '../../../shared/icons/icon.component';
     .footer-link:hover {
       color: #1e293b;
       text-decoration: underline;
-      text-decoration-color: #ea580c;
-      text-underline-offset: 4px;
-    }
-
-    .footer-copy {
-      font-size: 12px;
-      color: #64748b;
     }
   `]
 })
@@ -515,5 +506,13 @@ export class LoginComponent {
         this.error = true;
       }
     });
+  }
+
+  loginGoogle(): void {
+    // TODO: implement Google OAuth
+  }
+
+  loginApple(): void {
+    // TODO: implement Apple OAuth
   }
 }

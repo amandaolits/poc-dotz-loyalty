@@ -92,6 +92,21 @@ import { IconComponent } from '../../../shared/icons/icon.component';
                 }
               </div>
 
+              <div class="field">
+                <label class="field-label" for="confirmarSenha">Confirmar Senha</label>
+                <input
+                  id="confirmarSenha"
+                  type="password"
+                  formControlName="confirmarSenha"
+                  placeholder="Confirme sua senha"
+                  class="input"
+                  [class.input-error]="form.get('confirmarSenha')?.touched && form.get('confirmarSenha')?.invalid"
+                />
+                @if (form.get('confirmarSenha')?.touched && form.get('confirmarSenha')?.invalid) {
+                  <span class="field-error">{{ getError('confirmarSenha') }}</span>
+                }
+              </div>
+
               <div class="checkbox-row">
                 <input class="checkbox-input" id="terms" type="checkbox" />
                 <label class="checkbox-label" for="terms">Li e aceito os <a class="checkbox-link" href="#">Termos de Uso</a> e a <a class="checkbox-link" href="#">Política de Privacidade</a>.</label>
@@ -507,7 +522,8 @@ export class CadastroComponent {
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    senha: ['', [Validators.required, Validators.minLength(6)]]
+    senha: ['', [Validators.required, Validators.minLength(6)]],
+    confirmarSenha: ['', Validators.required]
   });
 
   loading = false;
@@ -518,11 +534,13 @@ export class CadastroComponent {
     if (c.errors?.['required']) return 'Campo obrigatório';
     if (c.errors?.['email']) return 'Email inválido';
     if (c.errors?.['minlength']) return 'Mínimo 6 caracteres';
+    if (f === 'confirmarSenha' && this.form.value.senha !== this.form.value.confirmarSenha) return 'Senhas não conferem';
     return '';
   }
 
   onSubmit(): void {
     if (this.form.invalid || this.loading) return;
+    if (this.form.value.senha !== this.form.value.confirmarSenha) return;
     this.loading = true;
     const { email, senha } = this.form.value;
     this.auth.cadastre(email!, senha!).subscribe({

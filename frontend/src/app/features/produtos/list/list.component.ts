@@ -7,16 +7,6 @@ import { Produto } from '../../../shared/models';
 import { FooterComponent, NavbarComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
 import { IconComponent } from '../../../shared/icons';
 
-const CATEGORIAS = [
-  'Eletrônicos',
-  'Eletrodomésticos',
-  'Beleza & Saúde',
-  'Casa & Decoração',
-  'Moda & Acessórios',
-  'Games',
-  'Informática',
-];
-
 @Component({
   selector: 'app-produtos-list',
   standalone: true,
@@ -45,8 +35,16 @@ const CATEGORIAS = [
               <div class="hero-card__select">
                 <select class="hero-card__select-input" [(ngModel)]="categoria" (ngModelChange)="onCategoryChange()">
                   <option value="">Categoria</option>
-                  @for (cat of categorias; track cat) {
+                  @for (cat of categorias(); track cat) {
                     <option [value]="cat">{{ cat }}</option>
+                  }
+                </select>
+              </div>
+              <div class="hero-card__select">
+                <select class="hero-card__select-input" [(ngModel)]="subcategoria" (ngModelChange)="onSubcategoriaChange()">
+                  <option value="">Subcategoria</option>
+                  @for (sub of subcategorias(); track sub) {
+                    <option [value]="sub">{{ sub }}</option>
                   }
                 </select>
               </div>
@@ -162,7 +160,7 @@ const CATEGORIAS = [
     }
     @media (min-width: 768px) {
       .hero-card__filters {
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 2fr 1fr 1fr;
       }
     }
     .hero-card__search {
@@ -362,10 +360,12 @@ export class ListComponent implements OnInit {
   protected loading = signal(true);
   protected busca = '';
   protected categoria = '';
+  protected subcategoria = '';
   protected pagina = signal(1);
   private total = signal(0);
   protected limite = 12;
-  protected categorias = CATEGORIAS;
+  protected categorias = signal<string[]>([]);
+  protected subcategorias = signal<string[]>([]);
 
   protected totalPages = computed(() => Math.ceil(this.total() / this.limite));
 
@@ -398,11 +398,21 @@ export class ListComponent implements OnInit {
     this.service.listar({
       busca: this.busca || undefined,
       categoria: this.categoria || undefined,
+      subcategoria: this.subcategoria || undefined,
       pagina: this.pagina(),
     }).subscribe({
       next: (r) => {
         this.produtos.set(r.produtos);
         this.total.set(r.total);
+        const cats = [...new Set(r.produtos.map(p => p.categoria).filter(Boolean))] as string[];
+        this.categorias.set(cats);
+        if (this.subcategoria && this.categoria) {
+          const subs = [...new Set(r.produtos.filter(p => p.categoria === this.categoria).map(p => p.subcategoria).filter(Boolean))] as string[];
+          this.subcategorias.set(subs);
+        } else {
+          const subs = [...new Set(r.produtos.map(p => p.subcategoria).filter(Boolean))] as string[];
+          this.subcategorias.set(subs);
+        }
         this.loading.set(false);
       },
       error: () => this.loading.set(false)
@@ -415,6 +425,12 @@ export class ListComponent implements OnInit {
   }
 
   protected onCategoryChange(): void {
+    this.subcategoria = '';
+    this.pagina.set(1);
+    this.load();
+  }
+
+  protected onSubcategoriaChange(): void {
     this.pagina.set(1);
     this.load();
   }
