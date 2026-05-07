@@ -4,11 +4,12 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/components';
+import { IconComponent } from '../../../shared/icons';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, ButtonComponent, InputComponent, CardComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, ButtonComponent, InputComponent, CardComponent, IconComponent],
   template: `
     <div class="login-page">
       <div class="login-card">
@@ -24,7 +25,7 @@ import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/
               placeholder="seu@email.com"
               formControlName="email"
               [error]="getError('email')"
-              prefixIcon="📧"
+              prefixIcon="mail"
             />
             <app-input
               label="Senha"
@@ -32,7 +33,7 @@ import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/
               placeholder="Sua senha"
               formControlName="senha"
               [error]="getError('senha')"
-              prefixIcon="🔒"
+              prefixIcon="lock"
             />
             <app-button type="submit" [disabled]="loading || form.invalid" class="submit-btn">
               {{ loading ? 'Entrando...' : 'Entrar' }}

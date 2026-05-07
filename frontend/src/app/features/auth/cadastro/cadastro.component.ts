@@ -4,11 +4,12 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/components';
+import { IconComponent } from '../../../shared/icons';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, ButtonComponent, InputComponent, CardComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, ButtonComponent, InputComponent, CardComponent, IconComponent],
   template: `
     <div class="cadastro-page">
       <app-card class="cadastro-card elevated">
@@ -23,7 +24,7 @@ import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/
             placeholder="seu@email.com"
             formControlName="email"
             [error]="getError('email')"
-            prefixIcon="📧"
+              prefixIcon="mail"
           />
           <app-input
             label="Senha"
@@ -31,7 +32,7 @@ import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/
             placeholder="Mínimo 6 caracteres"
             formControlName="senha"
             [error]="getError('senha')"
-            prefixIcon="🔒"
+              prefixIcon="lock"
           />
           <app-input
             label="Confirmar Senha"
@@ -39,7 +40,7 @@ import { ButtonComponent, InputComponent, CardComponent } from '../../../shared/
             placeholder="Confirme sua senha"
             formControlName="confirmarSenha"
             [error]="getError('confirmarSenha')"
-            prefixIcon="🔒"
+              prefixIcon="lock"
           />
           <app-button type="submit" [disabled]="loading || form.invalid" class="submit-btn">
             {{ loading ? 'Cadastrando...' : 'Cadastrar' }}
