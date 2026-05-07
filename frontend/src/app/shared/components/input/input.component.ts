@@ -1,15 +1,18 @@
 import { Component, input } from '@angular/core';
 import { ReactiveFormsModule, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IconComponent } from '../../icons';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconComponent],
   template: `
     <label class="label">{{ label() }}</label>
     <div class="input-wrapper">
       @if (prefixIcon()) {
-        <span class="prefix-icon">{{ prefixIcon() }}</span>
+        <span class="prefix-icon">
+          <app-icon [name]="prefixIcon()" [size]="16" />
+        </span>
       }
       <input
         [type]="type()"
@@ -19,7 +22,9 @@ import { ReactiveFormsModule, FormControl, NG_VALUE_ACCESSOR } from '@angular/fo
         [class.error]="error()"
       />
       @if (suffixIcon()) {
-        <span class="suffix-icon">{{ suffixIcon() }}</span>
+        <span class="suffix-icon">
+          <app-icon [name]="suffixIcon()" [size]="16" />
+        </span>
       }
     </div>
     @if (error()) {
