@@ -12,7 +12,7 @@ import { IconComponent } from '../../shared/icons';
   standalone: true,
   imports: [CommonModule, RouterLink, FooterComponent, NavbarComponent, SaldoDisplayComponent, SkeletonComponent, IconComponent],
   template: `
-    <app-navbar [saldo]="saldo()" />
+    <app-navbar />
     <main class="container dashboard-main">
       <div class="welcome-section">
         @if (usuario()) {

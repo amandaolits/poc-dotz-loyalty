@@ -30,6 +30,9 @@ import { Component, input } from '@angular/core';
         @case ('search') {
           <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         }
+        @case ('chevron-left') {
+          <polyline points="15 18 9 12 15 6"></polyline>
+        }
         @case ('chevron-right') {
           <polyline points="9 18 15 12 9 6"></polyline>
         }
@@ -71,6 +74,9 @@ import { Component, input } from '@angular/core';
         }
         @case ('trending-up') {
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline>
+        }
+        @case ('check-circle') {
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
         }
         @case ('clock') {
           <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>

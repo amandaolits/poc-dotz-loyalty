@@ -1,7 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { ApiService } from '../../../core/services/api.service';
+import { SaldoResponse } from '../../../shared/models';
 import { IconComponent } from '../../icons';
 
 @Component({
@@ -148,10 +150,17 @@ import { IconComponent } from '../../icons';
     }
   `]
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   auth = inject(AuthService);
   private router = inject(Router);
-  saldo = input<number>(0);
+  private api = inject(ApiService);
+  saldo = signal(0);
+
+  ngOnInit(): void {
+    this.api.get<SaldoResponse>('/saldo').subscribe({
+      next: (r) => this.saldo.set(r.saldo_pontos)
+    });
+  }
 
   isActive(route: string): boolean {
     return this.router.url.startsWith(route);
