@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 @Component({
   selector: 'app-card',
   standalone: true,
-  template: `<div class="card" [class.clickable]="clickable()" [class.elevated]="variant() === 'elevated'" [class.outlined]="variant() === 'outlined'" [class.filled]="variant() === 'filled'"><ng-content></ng-content></div>`,
+  template: `<div class="card" [class.clickable]="clickable()" [class.elevated]="variant() === 'elevated'" [class.outlined]="variant() === 'outlined'" [class.filled]="variant() === 'filled'" [class.pad-sm]="padding() === 'sm'" [class.pad-md]="padding() === 'md'"><ng-content></ng-content></div>`,
   styles: [`
     .card {
       background: var(--color-surface);
@@ -31,9 +31,12 @@ import { Component, input } from '@angular/core';
       background: var(--color-surface-container);
       border: none;
     }
+    .card.pad-sm { padding: var(--space-md); }
+    .card.pad-md { padding: var(--space-md) var(--space-lg); }
   `]
 })
 export class CardComponent {
   clickable = input(false);
   variant = input<'default' | 'elevated' | 'outlined' | 'filled'>('default');
+  padding = input<'sm' | 'md' | 'lg'>('lg');
 }

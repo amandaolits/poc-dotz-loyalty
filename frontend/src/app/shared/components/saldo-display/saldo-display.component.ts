@@ -26,7 +26,7 @@ import { DecimalPipe } from '@angular/common';
       margin-bottom: var(--space-sm);
     }
     .value {
-      font-size: 48px;
+      font-size: var(--font-size-hero, 48px);
       font-weight: var(--font-weight-h1);
       color: var(--color-primary);
       line-height: var(--font-line-height-h1);
