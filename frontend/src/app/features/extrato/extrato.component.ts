@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { Transacao } from '../../shared/models';
 import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent } from '../../shared/components';
+import { IconComponent } from '../../shared/icons';
 
 @Component({
   selector: 'app-extrato',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent],
+  imports: [CommonModule, NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
   template: `
     <app-navbar />
     <main class="container extrato-main">
@@ -28,9 +29,9 @@ import { NavbarComponent, CardComponent, SkeletonComponent, EmptyStateComponent 
               <div class="transacao-info">
                 <div class="transacao-icon" [class]="'icon-' + transacao.tipo">
                   @if (transacao.tipo === 'resgate') {
-                    🛒
+                    <app-icon name="shopping-cart" [size]="24" />
                   } @else {
-                    ✨
+                    <app-icon name="sparkles" [size]="24" />
                   }
                 </div>
                 <div class="transacao-details">
