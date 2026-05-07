@@ -9,6 +9,8 @@ export const routes: Routes = [
   { path: 'produtos/:id', loadComponent: () => import('./features/produtos/detail/detail.component').then(m => m.DetailComponent), canActivate: [authGuard] },
   { path: 'checkout', loadComponent: () => import('./features/checkout/checkout.component').then(m => m.CheckoutComponent), canActivate: [authGuard] },
   { path: 'enderecos', loadComponent: () => import('./features/enderecos/list/list.component').then(m => m.ListComponent), canActivate: [authGuard] },
+  { path: 'enderecos/novo', loadComponent: () => import('./features/enderecos/novo/novo-endereco.component').then(m => m.NovoEnderecoComponent), canActivate: [authGuard] },
+  { path: 'enderecos/:id/editar', loadComponent: () => import('./features/enderecos/editar/editar-endereco.component').then(m => m.EditarEnderecoComponent), canActivate: [authGuard] },
   { path: 'extrato', loadComponent: () => import('./features/extrato/extrato.component').then(m => m.ExtratoComponent), canActivate: [authGuard] },
   { path: 'pedidos', loadComponent: () => import('./features/pedidos/list/list.component').then(m => m.ListComponent), canActivate: [authGuard] },
   { path: 'pedidos/:id', loadComponent: () => import('./features/pedidos/detail/detail.component').then(m => m.DetailComponent), canActivate: [authGuard] },
