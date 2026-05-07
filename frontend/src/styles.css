@@ -59,6 +59,16 @@
   --color-on-tertiary-fixed: #001d35;
   --color-on-tertiary-fixed-variant: #00497b;
 
+  /* Colors - Status */
+  --color-success: #059669;
+  --color-success-container: rgba(0, 163, 109, 0.1);
+  --color-warning: #D97706;
+  --color-warning-container: rgba(254, 243, 199, 0.1);
+  --color-error: #DC2626;
+  --color-error-container: rgba(254, 226, 226, 0.1);
+  --color-info: #2563EB;
+  --color-info-container: rgba(219, 234, 254, 0.1);
+
   /* Typography */
   --font-family: 'Inter', sans-serif;
   --font-size-h1: 32px;

@@ -17,22 +17,21 @@ import { Component, input } from '@angular/core';
     }
     .chip-confirmado,
     .chip-concluido {
-      background: rgba(0, 163, 109, 0.1);
-      color: #059669;
+      background: var(--color-success-container);
+      color: var(--color-success);
     }
     .chip-processando,
     .chip-em_andamento {
-      background: rgba(254, 243, 199, 0.1);
-      color: #D97706;
+      background: var(--color-warning-container);
+      color: var(--color-warning);
     }
-    .chip-cancelado,
     .chip-cancelado {
-      background: rgba(254, 226, 226, 0.1);
-      color: #DC2626;
+      background: var(--color-error-container);
+      color: var(--color-error);
     }
     .chip-pendente {
-      background: rgba(219, 234, 254, 0.1);
-      color: #2563EB;
+      background: var(--color-info-container);
+      color: var(--color-info);
     }
     .chip-enviado {
       background: rgba(147, 197, 253, 0.1);
