@@ -22,9 +22,9 @@ import { IconComponent } from '../../shared/icons';
           <div class="filter-card">
             <h3 class="filter-title">Filtros de Período</h3>
             <div class="filter-buttons">
-              <button class="filter-btn active">Último mês</button>
-              <button class="filter-btn">3 meses</button>
-              <button class="filter-btn">Personalizado</button>
+              <button class="filter-btn" [class.active]="filtroAtivo() === '1m'" (click)="aplicarFiltro('1m')">Último mês</button>
+              <button class="filter-btn" [class.active]="filtroAtivo() === '3m'" (click)="aplicarFiltro('3m')">3 meses</button>
+              <button class="filter-btn" [class.active]="filtroAtivo() === 'todas'" (click)="aplicarFiltro('todas')">Todas</button>
             </div>
           </div>
         </aside>
@@ -227,14 +227,26 @@ export class ExtratoComponent implements OnInit {
   private api = inject(ApiService);
   transacoes = signal<Transacao[]>([]);
   loading = signal(true);
+  filtroAtivo = signal<string>('1m');
 
   ngOnInit(): void {
-    this.api.get<{ transacoes: Transacao[] }>('/extrato').subscribe({
-      next: (r) => {
-        this.transacoes.set(r.transacoes);
-        this.loading.set(false);
-      },
+    this.carregar();
+  }
+
+  private carregar(): void {
+    this.loading.set(true);
+    const params: Record<string, string> = {};
+    if (this.filtroAtivo() !== 'todas') {
+      params['periodo'] = this.filtroAtivo();
+    }
+    this.api.get<{ transacoes: Transacao[] }>('/extrato', params).subscribe({
+      next: (r) => { this.transacoes.set(r.transacoes); this.loading.set(false); },
       error: () => this.loading.set(false)
     });
+  }
+
+  aplicarFiltro(periodo: string): void {
+    this.filtroAtivo.set(periodo);
+    this.carregar();
   }
 }

@@ -48,9 +48,9 @@ import { IconComponent } from '../../../shared/icons';
               <div class="filter-card">
                 <h3 class="filter-title">Filtrar</h3>
                 <div class="filter-buttons">
-                  <button class="filter-btn active">Todos os Pedidos</button>
-                  <button class="filter-btn">Últimos 30 dias</button>
-                  <button class="filter-btn">Este ano</button>
+                  <button class="filter-btn" [class.active]="filtroAtivo() === undefined" (click)="aplicarFiltro('todos')">Todos os Pedidos</button>
+                  <button class="filter-btn" [class.active]="filtroAtivo() === '30d'" (click)="aplicarFiltro('30d')">Últimos 30 dias</button>
+                  <button class="filter-btn" [class.active]="filtroAtivo() === '1y'" (click)="aplicarFiltro('1y')">Este ano</button>
                 </div>
               </div>
             </aside>
@@ -308,14 +308,28 @@ export class ListComponent implements OnInit {
   private service = inject(PedidoService);
   pedidos = signal<Pedido[]>([]);
   loading = signal(true);
+  filtroAtivo = signal<string | undefined>(undefined);
+  private filterMap: Record<string, string | undefined> = {
+    'todos': undefined,
+    '30d': '30d',
+    '1y': '1y'
+  };
 
   ngOnInit(): void {
-    this.service.listar().subscribe({
-      next: (pedidos) => {
-        this.pedidos.set(pedidos);
-        this.loading.set(false);
-      },
+    this.carregar();
+  }
+
+  private carregar(): void {
+    this.loading.set(true);
+    const params = this.filtroAtivo() ? { periodo: this.filtroAtivo()! } : undefined;
+    this.service.listar(params).subscribe({
+      next: (pedidos) => { this.pedidos.set(pedidos); this.loading.set(false); },
       error: () => this.loading.set(false)
     });
+  }
+
+  aplicarFiltro(key: string): void {
+    this.filtroAtivo.set(this.filterMap[key]);
+    this.carregar();
   }
 }
