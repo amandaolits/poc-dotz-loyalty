@@ -1,106 +1,157 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { IconComponent } from '../../icons';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, DecimalPipe, IconComponent],
   template: `
-    <nav class="navbar">
-      <div class="navbar-left">
-        <a routerLink="/dashboard" class="logo">Dotz</a>
-        <div class="nav-links">
-          <a routerLink="/produtos" class="nav-link" [class.active]="isActive('/produtos')">Produtos</a>
-          <a routerLink="/pedidos" class="nav-link" [class.active]="isActive('/pedidos')">Pedidos</a>
-          <a routerLink="/enderecos" class="nav-link" [class.active]="isActive('/enderecos')">Endereços</a>
-          <a routerLink="/extrato" class="nav-link" [class.active]="isActive('/extrato')">Extrato</a>
+    <header class="navbar-header">
+      <div class="navbar-container">
+        <div class="navbar-left">
+          <a routerLink="/dashboard" class="logo">Dotz</a>
+          <nav class="nav-links">
+            <a routerLink="/produtos" class="nav-link" [class.active]="isActive('/produtos')">Produtos</a>
+            <a routerLink="/pedidos" class="nav-link" [class.active]="isActive('/pedidos')">Pedidos</a>
+            <a routerLink="/enderecos" class="nav-link" [class.active]="isActive('/enderecos')">Endereços</a>
+            <a routerLink="/extrato" class="nav-link" [class.active]="isActive('/extrato')">Extrato</a>
+          </nav>
+        </div>
+        <div class="navbar-right">
+          <div class="saldo-chip">
+            <app-icon name="wallet" [size]="20" />
+            <span class="saldo-text">{{ saldo() | number:'1.0-0' }} Dotz</span>
+          </div>
+          <button class="logout-btn" (click)="auth.logout()">Sair</button>
+          <div class="avatar">
+            {{ auth.usuario()?.email?.charAt(0)?.toUpperCase() || '?' }}
+          </div>
         </div>
       </div>
-      <div class="navbar-right">
-        @if (auth.usuario()) {
-          <span class="user-email">{{ auth.usuario()!.email.split('@')[0] }}</span>
-        }
-        <button class="logout-btn" (click)="auth.logout()">Sair</button>
-      </div>
-    </nav>
+    </header>
   `,
   styles: [`
-    .navbar {
+    .navbar-header {
       background: var(--color-surface);
-      padding: var(--space-md) var(--space-xl);
+      border-bottom: 1px solid var(--color-outline-variant);
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--color-outline-variant);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      width: 100%;
+      height: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    @media (min-width: 768px) {
+      .navbar-container {
+        padding: 0 32px;
+      }
     }
     .navbar-left {
       display: flex;
       align-items: center;
-      gap: var(--space-xl);
+      gap: 32px;
     }
     .logo {
-      color: var(--color-primary);
       font-size: 24px;
-      font-weight: var(--font-weight-h1);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--color-primary);
       text-decoration: none;
       white-space: nowrap;
     }
     .nav-links {
-      display: flex;
+      display: none;
       align-items: center;
-      gap: var(--space-lg);
+      gap: 24px;
+    }
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
     }
     .nav-link {
       font-size: var(--font-size-label-bold);
       color: var(--color-on-surface-variant);
       text-decoration: none;
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--radius-lg);
-      transition: all var(--transition-fast);
+      font-weight: 500;
+      transition: color 200ms ease;
       white-space: nowrap;
     }
     .nav-link:hover {
-      background: var(--color-surface-container);
       color: var(--color-primary);
     }
     .nav-link.active {
-      background: var(--color-primary-container);
       color: var(--color-primary);
       font-weight: 600;
     }
     .navbar-right {
       display: flex;
       align-items: center;
-      gap: var(--space-lg);
+      gap: 16px;
     }
-    .user-email {
-      font-size: var(--font-size-body-md);
-      color: var(--color-on-surface-variant);
+    .saldo-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-primary-fixed);
+      color: var(--color-on-primary-fixed);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+    }
+    .saldo-text {
+      font-size: var(--font-size-label-bold);
+      font-weight: var(--font-weight-label-bold);
     }
     .logout-btn {
-      background: transparent;
-      border: 1px solid var(--color-outline-variant);
+      display: none;
+      background: none;
+      border: none;
       color: var(--color-on-surface-variant);
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--radius-lg);
+      font-size: var(--font-size-label-bold);
+      font-weight: 500;
       cursor: pointer;
-      font-size: var(--font-size-label-sm);
-      font-weight: 600;
-      transition: all var(--transition-fast);
-      min-height: 36px;
+      padding: 0;
+      transition: color 200ms ease;
     }
     .logout-btn:hover {
-      background: var(--color-surface-container);
+      color: var(--color-primary);
+    }
+    @media (min-width: 768px) {
+      .logout-btn {
+        display: block;
+      }
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface-variant);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-on-surface-variant);
+      font-size: var(--font-size-label-bold);
+      font-weight: var(--font-weight-label-bold);
     }
   `]
 })
 export class NavbarComponent {
   auth = inject(AuthService);
   private router = inject(Router);
+  saldo = input<number>(0);
 
   isActive(route: string): boolean {
     return this.router.url.startsWith(route);

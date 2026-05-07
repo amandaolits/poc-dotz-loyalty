@@ -51,6 +51,9 @@ import { Component, input } from '@angular/core';
         @case ('arrow-right') {
           <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
         }
+        @case ('wallet') {
+          <path d="M21 12v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2M3 12V6a2 2 0 012-2h14a2 2 0 012 2v6"/><circle cx="16" cy="14" r="2"/>
+        }
       }
     </svg>
   `,
