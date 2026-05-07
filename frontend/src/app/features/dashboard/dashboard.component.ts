@@ -5,11 +5,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { ApiService } from '../../core/services/api.service';
 import { SaldoResponse } from '../../shared/models';
 import { NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent } from '../../shared/components';
+import { IconComponent } from '../../shared/icons';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponent, IconComponent],
   template: `
     <app-navbar />
     <main class="container dashboard-main">
@@ -29,22 +30,22 @@ import { NavbarComponent, SaldoDisplayComponent, CardComponent, SkeletonComponen
         <h2 class="section-title">O que você quer fazer?</h2>
         <div class="actions-grid">
           <a routerLink="/produtos" class="action-card">
-            <span class="action-icon">🛒</span>
+            <span class="action-icon"><app-icon name="shopping-cart" [size]="32" /></span>
             <span class="action-label">Produtos</span>
             <span class="action-desc">Resgate com seus pontos</span>
           </a>
           <a routerLink="/pedidos" class="action-card">
-            <span class="action-icon">📦</span>
+            <span class="action-icon"><app-icon name="package" [size]="32" /></span>
             <span class="action-label">Pedidos</span>
             <span class="action-desc">Acompanhe seus resgates</span>
           </a>
           <a routerLink="/extrato" class="action-card">
-            <span class="action-icon">📋</span>
+            <span class="action-icon"><app-icon name="list" [size]="32" /></span>
             <span class="action-label">Extrato</span>
             <span class="action-desc">Histórico de pontos</span>
           </a>
           <a routerLink="/enderecos" class="action-card">
-            <span class="action-icon">📍</span>
+            <span class="action-icon"><app-icon name="map-pin" [size]="32" /></span>
             <span class="action-label">Endereços</span>
             <span class="action-desc">Gerencie seus endereços</span>
           </a>
