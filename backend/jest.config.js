@@ -8,5 +8,6 @@ module.exports = {
   verbose: true,
   collectCoverageFrom: ["src/**/*.js", "!src/server.js"],
   coverageDirectory: "coverage",
+  maxWorkers: 1,
   forceExit: true,
 };
