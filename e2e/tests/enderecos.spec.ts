@@ -32,7 +32,7 @@ test.describe("Address Management", () => {
     await page.locator('app-button[type="submit"] button, button[type="submit"]').click();
     await page.waitForURL(/\/enderecos$/, { timeout: 15000 });
 
-    await expect(page.locator("text=Rua Teste E2E")).toBeVisible({ timeout: 5000 });
+    await expect(page.locator("text=Rua Teste E2E").first()).toBeVisible({ timeout: 5000 });
   });
 
   test("should navigate to edit address page", async ({ page }) => {
