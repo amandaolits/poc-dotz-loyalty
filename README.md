@@ -175,11 +175,13 @@ curl http://localhost:3000/api/produtos
 
 ```bash
 cd frontend
-npm install
+npm install --legacy-peer-deps
 ng serve
 ```
 
 O Angular sobe em `http://localhost:4200`.
+
+> ⚠️ O `--legacy-peer-deps` é necessário porque o `@angular-devkit/build-angular` exige Jest 29, mas o projeto usa Jest 30.
 
 ---
 
@@ -242,7 +244,60 @@ docker exec -i dotz-postgres psql -U postgres -d dotz_loyalty -c "UPDATE usuario
 
 ---
 
-## API — Visão Geral
+## Testes
+
+O projeto possui testes em 3 camadas: **backend** (unitários + integração), **frontend** (componentes/serviços) e **E2E** (Playwright).
+
+### Backend
+
+Usa Jest + Supertest contra um banco PostgreSQL separado (`dotz_loyalty_test`). O setup cria o banco e roda as migrations automaticamente.
+
+```bash
+cd backend
+npm install
+npx jest                    # Todos os testes
+npx jest tests/unit         # Apenas unitários (33 testes)
+npx jest tests/integration  # Apenas integração (42 testes)
+```
+
+### Frontend
+
+Usa Jest + `jest-preset-angular`. Os testes validam componentes, serviços, guards e interceptors.
+
+```bash
+cd frontend
+npm install --legacy-peer-deps
+npx jest                    # Todos os testes (63 testes)
+npx jest --no-coverage      # Sem cobertura (mais rápido)
+```
+
+### E2E
+
+Usa Playwright com Chromium. Requer **backend e frontend rodando simultaneamente**.
+
+```bash
+# Terminal 1 — Backend (porta 3000)
+cd backend && npm run dev
+
+# Terminal 2 — Frontend (porta 4200)
+cd frontend && ng serve
+
+# Terminal 3 — Testes
+cd e2e
+npm install
+npx playwright install chromium
+npx playwright test          # Todos os testes (26 testes, headless)
+npx playwright test --headed # Modo visível (debug)
+```
+
+### Resumo
+
+| Camada | Testes | Comando |
+|--------|--------|---------|
+| Backend unit | 33 | `cd backend && npx jest tests/unit` |
+| Backend int | 42 | `cd backend && npx jest tests/integration` |
+| Frontend | 63 | `cd frontend && npx jest` |
+| E2E | 26 | `cd e2e && npx playwright test` |
 
 Base: `http://localhost:3000/api`
 
@@ -304,6 +359,7 @@ poc-dotz-loyalty/
 
 ## Observações
 
-- Prova de conceito — sem testes automatizados, sem recuperação de senha, sem confirmação de e-mail
+- Prova de conceito — sem recuperação de senha, sem confirmação de e-mail
 - Upload de imagens não implementado (usamos URLs externas)
 - Saldo inicial de novos usuários é 0 (ganho simulado via seed ou SQL manual)
+- Testes automatizados implementados (ver seção [Testes](#testes))
