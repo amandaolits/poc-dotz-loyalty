@@ -1,7 +1,7 @@
 require("dotenv").config({ path: require("path").resolve(__dirname, "../../.env.test") });
-const { execSync } = require("child_process");
 const path = require("path");
 const { Pool } = require("pg");
+const { runner } = require("node-pg-migrate");
 let pool;
 
 async function ensureTestDb() {
@@ -17,15 +17,15 @@ async function ensureTestDb() {
 }
 
 async function runMigrations() {
-  const migratePath = path.resolve(__dirname, "../../node_modules/.bin/node-pg-migrate");
-  execSync(
-    `node "${migratePath}" up --migration-file-language js --migrations-dir="${path.resolve(__dirname, "../../migrations")}"`,
-    {
-      cwd: path.resolve(__dirname, "../.."),
-      env: { ...process.env, DATABASE_URL: process.env.DATABASE_URL },
-      stdio: "pipe",
-    }
-  );
+  await runner({
+    databaseUrl: process.env.DATABASE_URL,
+    dir: path.resolve(__dirname, "../../migrations"),
+    direction: "up",
+    migrationsTable: "migrations",
+    count: Infinity,
+    fileLanguage: "js",
+    noLock: true,
+  });
 }
 
 async function truncateTables() {
