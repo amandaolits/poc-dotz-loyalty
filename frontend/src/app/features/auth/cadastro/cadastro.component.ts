@@ -18,23 +18,7 @@ const senhasIguais: ValidatorFn = (c: AbstractControl): ValidationErrors | null 
   template: `
     <header class="header">
       <div class="header-inner">
-        <div class="header-left">
-          <span class="logo">Dotz</span>
-          <nav class="header-nav">
-            <a class="nav-link" href="#">Início</a>
-            <a class="nav-link" href="#">Como Funciona</a>
-            <a class="nav-link" href="#">Parceiros</a>
-          </nav>
-        </div>
-        <div class="header-right">
-          <div class="header-greeting">
-            <p class="greeting-top">Olá, visitante</p>
-            <p class="greeting-bottom">Minha Conta</p>
-          </div>
-          <button class="menu-btn" aria-label="Menu">
-            <app-icon name="menu" [size]="28" />
-          </button>
-        </div>
+        <span class="logo">Dotz</span>
       </div>
     </header>
 
@@ -120,11 +104,6 @@ const senhasIguais: ValidatorFn = (c: AbstractControl): ValidationErrors | null 
                 }
               </div>
 
-              <div class="checkbox-row">
-                <input class="checkbox-input" id="terms" type="checkbox" />
-                <label class="checkbox-label" for="terms">Li e aceito os <a class="checkbox-link" href="#">Termos de Uso</a> e a <a class="checkbox-link" href="#">Política de Privacidade</a>.</label>
-              </div>
-
               <button type="submit" class="submit-btn" [disabled]="loading || form.invalid">
                 {{ loading ? 'Cadastrando...' : 'Cadastrar' }}
               </button>
@@ -160,17 +139,11 @@ const senhasIguais: ValidatorFn = (c: AbstractControl): ValidationErrors | null 
 
     .header-inner {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       padding: 16px 24px;
       max-width: 1200px;
       margin: 0 auto;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 32px;
     }
 
     .logo {
@@ -178,71 +151,6 @@ const senhasIguais: ValidatorFn = (c: AbstractControl): ValidationErrors | null 
       font-weight: 900;
       color: #ea580c;
       line-height: 1;
-    }
-
-    .header-nav {
-      display: none;
-      gap: 24px;
-    }
-
-    @media (min-width: 768px) {
-      .header-nav { display: flex; }
-    }
-
-    .nav-link {
-      font-size: 14px;
-      font-weight: 600;
-      color: #6b7280;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: all 0.2s;
-    }
-
-    .nav-link:hover {
-      background: #f9fafb;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .header-greeting {
-      display: none;
-      text-align: right;
-    }
-
-    @media (min-width: 640px) {
-      .header-greeting { display: block; }
-    }
-
-    .greeting-top {
-      font-size: var(--font-size-label-sm);
-      color: var(--color-secondary);
-    }
-
-    .greeting-bottom {
-      font-size: var(--font-size-label-bold);
-      font-weight: var(--font-weight-label-bold);
-      color: var(--color-on-surface);
-    }
-
-    .menu-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 9999px;
-      color: #6b7280;
-      display: flex;
-      align-items: center;
-      transition: background 0.2s;
-    }
-
-    .menu-btn:hover {
-      background: #f9fafb;
     }
 
     .main {
@@ -436,33 +344,6 @@ const senhasIguais: ValidatorFn = (c: AbstractControl): ValidationErrors | null 
     .field-error {
       font-size: var(--font-size-label-sm);
       color: var(--color-error);
-    }
-
-    .checkbox-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .checkbox-input {
-      margin-top: 2px;
-      border-radius: 4px;
-      border-color: var(--color-outline-variant);
-      accent-color: var(--color-primary);
-      flex-shrink: 0;
-    }
-
-    .checkbox-label {
-      font-size: var(--font-size-label-sm);
-      color: var(--color-secondary);
-      line-height: 1.4;
-    }
-
-    .checkbox-link {
-      color: var(--color-primary);
-      font-weight: 700;
-      text-decoration: underline;
     }
 
     .submit-btn {

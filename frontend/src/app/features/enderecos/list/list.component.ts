@@ -5,6 +5,7 @@ import { EnderecoService } from '../endereco.service';
 import { Endereco } from '../../../shared/models';
 import { FooterComponent, NavbarComponent, SkeletonComponent } from '../../../shared/components';
 import { IconComponent } from '../../../shared/icons';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-enderecos-list',
@@ -285,6 +286,7 @@ import { IconComponent } from '../../../shared/icons';
 export class ListComponent implements OnInit {
   private service = inject(EnderecoService);
   private router = inject(Router);
+  private toast = inject(ToastService);
   enderecos = signal<Endereco[]>([]);
   loading = signal(true);
 
@@ -309,7 +311,10 @@ export class ListComponent implements OnInit {
   remover(id: string): void {
     if (confirm('Tem certeza que deseja remover este endereço?')) {
       this.service.remover(id).subscribe({
-        next: () => this.load(),
+        next: () => {
+          this.toast.show('Endereço removido com sucesso!', 'success');
+          this.load();
+        },
         error: () => console.error('Erro ao remover endereço')
       });
     }

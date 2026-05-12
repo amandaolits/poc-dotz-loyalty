@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { PedidoService } from '../pedido.service';
 import { Pedido } from '../../../shared/models';
 import { FooterComponent, NavbarComponent, SkeletonComponent } from '../../../shared/components';
 import { IconComponent } from '../../../shared/icons';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-pedidos-list',
@@ -306,6 +307,8 @@ import { IconComponent } from '../../../shared/icons';
 })
 export class ListComponent implements OnInit {
   private service = inject(PedidoService);
+  private route = inject(ActivatedRoute);
+  private toast = inject(ToastService);
   pedidos = signal<Pedido[]>([]);
   loading = signal(true);
   filtroAtivo = signal<string | undefined>(undefined);
@@ -316,6 +319,9 @@ export class ListComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    if (this.route.snapshot.queryParamMap.get('success') === 'true') {
+      this.toast.show('Resgate realizado com sucesso!', 'success');
+    }
     this.carregar();
   }
 
