@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ProdutosService } from '../produtos.service';
 import { Produto } from '../../../shared/models';
-import { FooterComponent, NavbarComponent, SkeletonComponent, EmptyStateComponent } from '../../../shared/components';
+import { FooterComponent, NavbarComponent, SkeletonComponent, EmptyStateComponent, SelectComponent } from '../../../shared/components';
 import { IconComponent } from '../../../shared/icons';
 
 @Component({
   selector: 'app-produtos-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, FooterComponent, NavbarComponent, SkeletonComponent, EmptyStateComponent, IconComponent],
+  imports: [CommonModule, FormsModule, RouterLink, FooterComponent, NavbarComponent, SkeletonComponent, EmptyStateComponent, IconComponent, SelectComponent],
   template: `
     <app-navbar />
     <main class="produtos-main">
@@ -33,20 +33,20 @@ import { IconComponent } from '../../../shared/icons';
                 />
               </div>
               <div class="hero-card__select">
-                <select class="hero-card__select-input" [(ngModel)]="categoria" (ngModelChange)="onCategoryChange()">
-                  <option value="">Categoria</option>
-                  @for (cat of categorias(); track cat) {
-                    <option [value]="cat">{{ cat }}</option>
-                  }
-                </select>
+                <app-select
+                  [options]="categoriaOpts()"
+                  placeholder="Categoria"
+                  [(value)]="categoria"
+                  (valueChange)="onCategoryChange()"
+                />
               </div>
               <div class="hero-card__select">
-                <select class="hero-card__select-input" [(ngModel)]="subcategoria" (ngModelChange)="onSubcategoriaChange()">
-                  <option value="">Subcategoria</option>
-                  @for (sub of subcategorias(); track sub) {
-                    <option [value]="sub">{{ sub }}</option>
-                  }
-                </select>
+                <app-select
+                  [options]="subcategoriaOpts()"
+                  placeholder="Subcategoria"
+                  [(value)]="subcategoria"
+                  (valueChange)="onSubcategoriaChange()"
+                />
               </div>
             </div>
           </div>
@@ -191,37 +191,6 @@ import { IconComponent } from '../../../shared/icons';
     }
     .hero-card__select {
       position: relative;
-    }
-    .hero-card__select::after {
-      content: '';
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 6px solid var(--color-on-surface-variant);
-      pointer-events: none;
-    }
-    .hero-card__select-input {
-      width: 100%;
-      padding: 12px 36px 12px 16px;
-      background: var(--color-surface);
-      border: 1px solid var(--color-outline-variant);
-      border-radius: var(--radius-xl);
-      font-size: var(--font-size-body-md);
-      font-family: var(--font-family);
-      outline: none;
-      transition: all 200ms;
-      appearance: none;
-      box-sizing: border-box;
-      cursor: pointer;
-    }
-    .hero-card__select-input:focus {
-      border-color: var(--color-primary-container);
-      box-shadow: 0 0 0 2px var(--color-primary-fixed);
     }
 
     .grid {
@@ -381,6 +350,12 @@ export class ListComponent implements OnInit {
   protected limite = 12;
   protected categorias = signal<string[]>([]);
   protected subcategorias = signal<string[]>([]);
+  protected categoriaOpts = computed(() =>
+    this.categorias().map(c => ({ value: c, label: c }))
+  );
+  protected subcategoriaOpts = computed(() =>
+    this.subcategorias().map(s => ({ value: s, label: s }))
+  );
 
   protected totalPages = computed(() => Math.ceil(this.total() / this.limite));
 
