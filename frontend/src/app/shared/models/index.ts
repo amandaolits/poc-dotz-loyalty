@@ -7,4 +7,4 @@ export interface Transacao { id: string; usuario_id: string; tipo: 'ganho' | 're
 export interface ExtratoResponse { transacoes: Transacao[]; total: number; pagina: number; }
 export interface Pedido { id: string; usuario_id: string; produto_id: string; endereco_entrega_id: string; pontos_gastos: number; status: string; data_pedido: string; produto_nome?: string; produto_imagem?: string; produto_descricao?: string; produto_pontos_necessarios?: number; logradouro?: string; numero?: string; complemento?: string; bairro?: string; cidade?: string; estado?: string; cep?: string; }
 export interface SaldoResponse { saldo_pontos: number; }
-export interface ToastMessage { type: 'success' | 'error' | 'info'; message: string; }
+export interface ToastMessage { id: string; type: 'success' | 'error' | 'info'; message: string; }

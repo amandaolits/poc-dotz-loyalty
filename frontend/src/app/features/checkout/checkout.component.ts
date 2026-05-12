@@ -15,6 +15,9 @@ import { IconComponent } from '../../shared/icons';
   template: `
     <app-navbar />
     <main class="container checkout-main">
+      <a routerLink="/produtos" class="back-link">
+        <app-icon name="arrow-left" [size]="16" /> Voltar aos produtos
+      </a>
       @if (loading()) {
         <app-skeleton height="300px" />
       } @else if (produto()) {
@@ -116,6 +119,18 @@ import { IconComponent } from '../../shared/icons';
     .checkout-main {
       padding-top: var(--space-xl);
       padding-bottom: var(--space-2xl);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: var(--font-weight-label-bold);
+      margin-bottom: var(--space-lg);
+    }
+    .back-link:hover {
+      text-decoration: underline;
     }
     .checkout-header {
       margin-bottom: var(--space-xl);

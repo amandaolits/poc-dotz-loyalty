@@ -52,10 +52,7 @@ import { IconComponent } from '../../../shared/icons/icon.component';
             </div>
 
             <div class="field">
-              <div class="password-header">
-                <label class="field-label" for="password">Senha</label>
-                <a class="forgot-link" href="#">Esqueceu a senha?</a>
-              </div>
+              <label class="field-label" for="password">Senha</label>
               <div class="input-wrapper">
                 <div class="input-icon-left">
                   <app-icon name="lock" [size]="20" color="#8e7164" />
@@ -79,33 +76,7 @@ import { IconComponent } from '../../../shared/icons/icon.component';
             </button>
           </form>
 
-          <div class="social-divider">
-            <span class="divider-line"></span>
-            <span class="divider-text">ou continue com</span>
-            <span class="divider-line"></span>
-          </div>
 
-          <div class="social-buttons">
-            <button type="button" class="social-btn" (click)="loginGoogle()">
-              <span class="social-btn-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-              </span>
-              Entrar com Google
-            </button>
-            <button type="button" class="social-btn" (click)="loginApple()">
-              <span class="social-btn-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" fill="currentColor"/>
-                </svg>
-              </span>
-              Entrar com Apple
-            </button>
-          </div>
 
           <div class="register-link">
             <p class="register-text">Ainda não tem conta? <a class="register-anchor" routerLink="/cadastro">Cadastre-se</a></p>
@@ -117,12 +88,7 @@ import { IconComponent } from '../../../shared/icons/icon.component';
     <footer class="footer">
       <div class="footer-inner">
         <span class="footer-logo">Dotz</span>
-        <div class="footer-links">
-          <a class="footer-link" href="#">Privacidade</a>
-          <a class="footer-link" href="#">Termos</a>
-          <a class="footer-link" href="#">Ajuda</a>
-          <a class="footer-link" href="#">Parceiros</a>
-        </div>
+        <p class="footer-text">Programa de fidelidade &bull; {{ currentYear }}</p>
       </div>
     </footer>
   `,
@@ -245,24 +211,6 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       margin-left: 4px;
     }
 
-    .password-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .forgot-link {
-      font-size: var(--font-size-label-sm);
-      font-weight: var(--font-weight-label-sm);
-      color: var(--color-primary);
-      text-decoration: none;
-      margin-right: 4px;
-    }
-
-    .forgot-link:hover {
-      text-decoration: underline;
-    }
-
     .input-wrapper {
       position: relative;
     }
@@ -352,62 +300,9 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       cursor: not-allowed;
     }
 
-    .social-divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: var(--space-md) 0;
-    }
-
-    .divider-line {
-      flex: 1;
-      height: 1px;
-      background: #e2e8f0;
-    }
-
-    .divider-text {
-      font-size: var(--font-size-label-sm);
-      font-weight: var(--font-weight-label-sm);
-      color: var(--color-on-surface-variant);
-      white-space: nowrap;
-    }
-
-    .social-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-md);
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-      padding: 14px 0;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: var(--radius-xl);
-      font-size: var(--font-size-body-md);
-      font-weight: 500;
-      color: var(--color-on-surface);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .social-btn:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
-    }
-
-    .social-btn-icon {
-      display: flex;
-      align-items: center;
-    }
-
     .register-link {
       text-align: center;
+      margin-top: var(--space-lg);
     }
 
     .register-text {
@@ -451,23 +346,9 @@ import { IconComponent } from '../../../shared/icons/icon.component';
       color: #94a3b8;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .footer-link {
-      font-size: 12px;
-      color: #64748b;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-link:hover {
-      color: #1e293b;
-      text-decoration: underline;
+    .footer-text {
+      font-size: var(--font-size-label-sm);
+      color: var(--color-on-surface-variant);
     }
   `]
 })
@@ -484,6 +365,7 @@ export class LoginComponent {
   loading = false;
   errorMessage: string | null = null;
   showPassword = false;
+  currentYear = new Date().getFullYear();
 
   getError(f: string): string {
     const c = this.form.get(f);
@@ -508,11 +390,4 @@ export class LoginComponent {
     });
   }
 
-  loginGoogle(): void {
-    // TODO: implement Google OAuth
-  }
-
-  loginApple(): void {
-    // TODO: implement Apple OAuth
-  }
 }
