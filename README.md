@@ -171,6 +171,16 @@ Teste:
 curl http://localhost:3000/api/produtos
 ```
 
+### Passo 7.5 — Documentação Swagger
+
+Com o backend rodando, acesse a interface interativa da API em:
+
+```
+http://localhost:3000/api/docs
+```
+
+A especificação OpenAPI 3.0 cobre todos os 14 endpoints com schemas de requisição/resposta, exemplos e autenticação JWT integrada (botão **Authorize**).
+
 ### Passo 8 — Iniciar o Frontend
 
 ```bash
@@ -255,9 +265,9 @@ Usa Jest + Supertest contra um banco PostgreSQL separado (`dotz_loyalty_test`). 
 ```bash
 cd backend
 npm install
-npx jest                    # Todos os testes
-npx jest tests/unit         # Apenas unitários (33 testes)
-npx jest tests/integration  # Apenas integração (42 testes)
+npx jest                        # Todos os testes
+npx jest tests/unit             # Apenas unitários (33 testes)
+npx jest tests/integration      # Apenas integração (42 testes)
 ```
 
 ### Frontend
@@ -267,7 +277,7 @@ Usa Jest + `jest-preset-angular`. Os testes validam componentes, serviços, guar
 ```bash
 cd frontend
 npm install --legacy-peer-deps
-npx jest                    # Todos os testes (63 testes)
+npx jest                    # Todos os testes (94 testes)
 npx jest --no-coverage      # Sem cobertura (mais rápido)
 ```
 
@@ -286,7 +296,7 @@ cd frontend && ng serve
 cd e2e
 npm install
 npx playwright install chromium
-npx playwright test          # Todos os testes (26 testes, headless)
+npx playwright test          # Todos os testes (47 testes, headless)
 npx playwright test --headed # Modo visível (debug)
 ```
 
@@ -296,8 +306,10 @@ npx playwright test --headed # Modo visível (debug)
 |--------|--------|---------|
 | Backend unit | 33 | `cd backend && npx jest tests/unit` |
 | Backend int | 42 | `cd backend && npx jest tests/integration` |
-| Frontend | 63 | `cd frontend && npx jest` |
-| E2E | 26 | `cd e2e && npx playwright test` |
+| Frontend | 94 | `cd frontend && npx jest` |
+| E2E | 47 | `cd e2e && npx playwright test` |
+
+A documentação interativa da API está disponível em `http://localhost:3000/api/docs` (Swagger UI).
 
 Base: `http://localhost:3000/api`
 
@@ -359,6 +371,7 @@ poc-dotz-loyalty/
 
 ## Observações
 
+- Documentação Swagger disponível em `/api/docs` com o backend rodando
 - Prova de conceito — sem recuperação de senha, sem confirmação de e-mail
 - Upload de imagens não implementado (usamos URLs externas)
 - Saldo inicial de novos usuários é 0 (ganho simulado via seed ou SQL manual)
