@@ -1,5 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const yaml = require("js-yaml");
+const fs = require("fs");
+const path = require("path");
 const errorHandler = require("./middlewares/errorHandler");
 const usuarioRoutes = require("./routes/usuarioRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -12,6 +16,9 @@ const pedidoRoutes = require("./routes/pedidoRoutes");
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const swaggerDocument = yaml.load(fs.readFileSync(path.join(__dirname, "..", "swagger.yaml"), "utf8"));
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api", authRoutes);
